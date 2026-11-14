@@ -1,5 +1,9 @@
 # Fixdeed
 
+Live product: https://fixdeed.vercel.app
+
+Public source: https://github.com/a1ienpage/fixdeed
+
 Home-care decisions for US first-time homeowners aged 25–45. Zimran Business Cup, Money track. Built by **extra moggers**: Aliaskar (captain and coder), Zhamilya (economics and speaker).
 
 ## Run

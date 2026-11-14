@@ -217,7 +217,10 @@ export const PREVENTIVE_TASKS: PreventiveTask[] = [
   },
 ];
 
-export function filterTasksForProfile(profile: HomeProfile): PreventiveTask[] {
+export function filterTasksForProfile(
+  profile: HomeProfile,
+  profileConfigured = true,
+): PreventiveTask[] {
   const era = profile.homeEra || deriveHomeEra(profile.yearBuilt);
   return PREVENTIVE_TASKS.filter((task) => {
     if (task.houseOnly && profile.housingType === "apartment") return false;
@@ -230,7 +233,7 @@ export function filterTasksForProfile(profile: HomeProfile): PreventiveTask[] {
     return true;
   }).map((t) => ({
     ...t,
-    whyItMatters: t.eraHighlight?.[era]
+    whyItMatters: profileConfigured && t.eraHighlight?.[era]
       ? `${t.whyItMatters} ${t.eraHighlight[era]}`
       : t.whyItMatters,
   }));

@@ -48,7 +48,7 @@ export default function PreventPage() {
       "Calendar file downloaded. Import it into your calendar app and allow its reminders. Re-import after changing completion dates; this file does not sync automatically.",
     );
   }
-  const tasks = filterTasksForProfile(state.profile)
+  const tasks = filterTasksForProfile(state.profile, state.profileConfigured)
     .map((task) => ({
       task,
       ...getTaskStatus(task, state.completedPreventive[task.id]),

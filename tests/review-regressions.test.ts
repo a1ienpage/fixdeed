@@ -265,3 +265,11 @@ it("never directs screws into an unverified jamb or wall from a direct door guid
     /3.inch|three.inch|long.screw|drive.*screw|screw.*stud/i,
   );
 });
+
+it("keeps era-specific maintenance notes out of an unconfigured starter home", async () => {
+  const { filterTasksForProfile } = await import("@/content/preventive");
+  const starter = filterTasksForProfile(DEFAULT_STATE.profile, false);
+  expect(starter.map((task) => task.whyItMatters).join(" ")).not.toMatch(/home note:/i);
+  const configured = filterTasksForProfile(DEFAULT_STATE.profile, true);
+  expect(configured.map((task) => task.whyItMatters).join(" ")).toMatch(/1980.2000 home note:/i);
+});

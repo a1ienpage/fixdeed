@@ -43,7 +43,7 @@ export default function MyHome() {
   const [deleteConfirmed, setDeleteConfirmed] = useState(false);
   const [deleteError, setDeleteError] = useState("");
   const [status, setStatus] = useState("");
-  const tasks = filterTasksForProfile(state.profile);
+  const tasks = filterTasksForProfile(state.profile, state.profileConfigured);
   const due = tasks
     .map((t) => ({
       task: t,
