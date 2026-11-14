@@ -289,6 +289,16 @@ export function resetDemoHome(): void {
   readPersonalHome();
   writeState(structuredClone(DEMO_STATE));
 }
+/** Opening an example is not a reset: preserve the user's work inside that example. */
+export function openSampleHome(): void {
+  readPersonalHome();
+  try {
+    writeState(loadStored(DEMO_STORAGE_KEY, "demo"));
+  } catch {
+    persistenceStatus = "unavailable";
+    notify();
+  }
+}
 export function switchToPersonalHome(): void {
   writeState(readPersonalHome());
 }

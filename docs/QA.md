@@ -1,24 +1,21 @@
-# MVP verification — 2026-11-15
+# Verification — 15 November 2026
 
-103 automated tests across seven files passed. TypeScript and production build passed. Independent core and whole-product reviewers' critical/important findings were fixed and independently re-reviewed; no critical/important issues remained in those reviewed changes. Finite tests and reviews are not a certification of real-world safety.
+144 Vitest tests across 11 files pass. TypeScript and a webpack production build pass. Tests cover the supplied 103-test baseline plus observed audit failures and upgrade behavior. An independent code review reproduced safety/context/isolation issues; the material findings received regressions and fixes. Passing finite tests is not professional safety validation.
 
-Browser verification used synthetic records on an isolated localhost origin:
+## Observed in the browser
 
-| Flow | Observed result |
-| --- | --- |
-| Landing page | Explanatory home page first; room controls change contextual problem link |
-| Known sink issue | Relevant answers produce limited curated steps; no dollars added |
-| Fire description | Emergency stop; no repair guide or repair action |
-| Unknown refrigerator symptom | Clarification, no invented sink repair |
-| Personal setup | Apartment/equipment selection persists and changes task applicability |
-| Repair confirmation | Quote180/spend20 produces160 only after explicit confirmation; survives reload |
-| Maintenance | Monthly completion schedules next calendar month; calendar and status filters work |
-| Learning | Incorrect first instinct gets explanation; wrong transfer answer gives no award; correct new scenario awards one skill without changing money or repair count; persists |
-| Sample home | Clearly marked and separate; returning restores personal record |
-| Export while in demo | Download contains personal home and its confirmed record, not sample history |
-| Assistant follow-up | Active emergency remains a safety stop on the next message |
-| Mobile | 390px layout and navigation checked; no page overflow on inspected main/maintenance screens |
+- Explicit absent smoke/fire no longer produce an emergency for the supported ordinary sink example; active or uncertain reports retain stops.
+- The assistant uses an explicit timing answer and asks only the remaining valve question. Its structured handoff preserves the observations and selected timing check.
+- Switching from a sample home to personal on the troubleshooting route clears the existing draft/result/save action.
+- Free guided checks remain accessible before demo activation.
+- Save case paywall shows proposed annual/monthly prices, requires a demo acknowledgment and charges $0.
+- Demo activation saves a decision case with the original observations and result.
+- Two synthetic quotes at $180 and $260 show an $80 amount difference while retaining different scopes, exclusions and warranties. No saving is inferred.
+- Contractor brief downloads to a text file containing observations, questions, quotes and explicit limits, without contacting anyone.
+- Calendar export downloads a CRLF iCalendar file with recurring events and alarms; physical lines were at most 74 bytes in the inspected export.
+- The maintenance and plans screens at 390px showed document width 390px, with usable navigation and no inspected page overflow.
+- Original repair/maintenance/skill separation remains covered by regression tests and prior browser checks.
 
-Data deletion failure and corruption were verified against controlled storage implementations in automated tests. No real household information, paid model calls or public publishing were used for QA.
+## Limits
 
-Important limits: deterministic guided library, no image analysis, no account/payment/backend household sync, no background notifications. Local persistence is not a backup; conversation is in memory. Schedules and estimates are educational starting points.
+No real payment processor, professional content certification, actual user validation, cross-device sync or background notification service was added. Calendar alarms depend on the external calendar app after manual import; automatic update/import behavior across all calendar clients is not certified. Plus entitlement is a disclosed local demo. Actual paid access requires a server-side billing/entitlement implementation before charging. Cost/retention/CAC assumptions in the economics model have not been measured.

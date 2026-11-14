@@ -6,7 +6,7 @@ import { PlusPaywall } from "@/components/PlusPaywall";
 import {
   useFixdeedState,
   disableDemoPlus,
-  resetDemoHome,
+  openSampleHome,
   useHydrated,
 } from "@/lib/homeClientStore";
 import {
@@ -133,7 +133,7 @@ export default function Plans() {
         <button
           className="button button-outline"
           onClick={() => {
-            resetDemoHome();
+            openSampleHome();
             setMessage(
               "Sample home opened with Plus demo. All example history is illustrative.",
             );

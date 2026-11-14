@@ -5,7 +5,7 @@ import {
   useFixdeedState,
   useHydrated,
   usePersistenceStatus,
-  resetDemoHome,
+  openSampleHome,
   switchToPersonalHome,
   clearHomeData,
   getExportData,
@@ -366,7 +366,7 @@ export default function MyHome() {
           <button
             className="button button-outline button-small"
             onClick={() => {
-              resetDemoHome();
+              openSampleHome();
               setStatus("Sample home opened. Your personal home is preserved.");
             }}
           >

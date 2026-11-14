@@ -123,6 +123,14 @@ it("keeps saved cases and demo access isolated from the personal home", async ()
   expect(personal.decisionCases.map((c: { id: string }) => c.id)).toEqual([
     "case-a",
   ]);
+  expect(typeof store.openSampleHome).toBe("function");
+  store.switchToPersonalHome();
+  store.openSampleHome();
+  expect(
+    JSON.parse(values.get("fixdeed:demo:v2")!).decisionCases.map(
+      (c: { id: string }) => c.id,
+    ),
+  ).toEqual(["demo"]);
   store.switchToPersonalHome();
   store.disableDemoPlus();
   expect(JSON.parse(store.getExportData()).decisionCases).toHaveLength(1);

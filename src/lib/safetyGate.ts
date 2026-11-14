@@ -219,28 +219,48 @@ export function scanText(text: string | null | undefined): ScanResult {
 
 /** Local absence statements are not incident reports. Uncertainty never cancels a stop. */
 function suppressExplicitAbsences(text: string): string {
-  const uncertain = (offset: number) =>
-    /\b(?:not sure|unsure|cannot confirm|can't confirm|cannot rule out|can't rule out|might|maybe|possibly|probably|think)\b[^.!?;]{0,60}$/i.test(
-      text.slice(Math.max(0, offset - 90), offset),
+  function isCompleteAssertion(input: string, offset: number, length: number) {
+    const start =
+      Math.max(
+        input.lastIndexOf(".", offset),
+        input.lastIndexOf(";", offset),
+        input.lastIndexOf("?", offset),
+      ) + 1;
+    const tail = input.slice(offset + length);
+    const end = tail.search(/[.!?;]/);
+    const clause = input.slice(
+      start,
+      end < 0 ? input.length : offset + length + end,
     );
+    if (
+      /\b(?:not sure|unsure|cannot confirm|can't confirm|cannot rule out|can't rule out|might|maybe|possibly|probably|think|believe|guess|until|yet|anymore)\b/i.test(
+        clause,
+      )
+    )
+      return false;
+    if (
+      /^\s+(?:here|there|in|from|around|at|now|upstairs|downstairs)\b/i.test(
+        tail,
+      )
+    )
+      return false;
+    return end < 0 || tail[end] !== "?";
+  }
   const hazard =
     "(?:smoke(?!\\s+(?:alarm|detector)\\b)|fire|flames?|sparks?|(?:natural\\s+)?gas\\s+(?:smell|odou?r|leak)|(?:smell|odou?r)(?:\\s+of)?\\s+(?:natural\\s+)?gas)";
   const absent = new RegExp(
-    `\\b(?:no|without)\\s+(?:(?:visible|active|apparent)\\s+)?${hazard}(?:\\s*(?:,|or)\\s*(?:no\\s+)?${hazard}|\\s+and\\s+no\\s+${hazard}){0,3}\\b`,
+    `\\b(?:no|without)\\s+(?:(?:visible|active|apparent)\\s+)?${hazard}(?:\\s+or\\s+(?:no\\s+)?${hazard}(?=\\s*(?:[.!;]|$)))?\\b`,
     "gi",
   );
   let result = text.replace(absent, (match, offset: number) =>
-    uncertain(offset) ||
-    /^\s+(?:yet|maybe)\b/i.test(text.slice(offset + match.length))
+    !isCompleteAssertion(text, offset, match.length)
       ? match
       : " [explicitly absent] ",
   );
   result = result.replace(
     /\b(?:smoke|co|carbon monoxide)\s+(?:alarm|detector)\s+(?:(?:is|was)\s+)?(?:not|isn't|wasn't)\s+(?:going off|sounding|activated|triggered)\b/gi,
     (match, offset: number) =>
-      /\b(?:not sure|unsure|might)\b[^.!?;]{0,60}$/i.test(
-        result.slice(Math.max(0, offset - 90), offset),
-      )
+      !isCompleteAssertion(result, offset, match.length)
         ? match
         : " [alarm reported inactive] ",
   );

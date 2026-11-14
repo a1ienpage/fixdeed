@@ -16,6 +16,9 @@ import { TierBadge } from "@/components/TierBadge";
 import { ModalDialog } from "@/components/ModalDialog";
 import { RepairLogForm } from "@/components/RepairLogForm";
 import { SaveCaseAction } from "@/components/SaveCaseAction";
+import { getTriageSessionKey, takeTriageHandoff } from "@/lib/triageSession";
+import { inferObservationContext } from "@/lib/observationContext";
+import type { SafetyTier } from "@/lib/safetyGate";
 const ICONS: Record<string, IconName> = {
   "sink-leaking": "drop",
   "toilet-wont-flush": "layers",
@@ -34,6 +37,7 @@ function FixTool() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [logOpen, setLogOpen] = useState(false);
+  const [handoffFloor, setHandoffFloor] = useState<SafetyTier | undefined>();
   const resultRef = useRef<HTMLDivElement>(null);
   const guardRef = useRef<ReturnType<typeof createRequestGuard> | null>(null);
   if (!guardRef.current) guardRef.current = createRequestGuard();
@@ -54,6 +58,14 @@ function FixTool() {
   const ready = Boolean(preset || text.trim().length >= 3);
   useEffect(() => {
     invalidate();
+    const handoff = takeTriageHandoff(getTriageSessionKey(state));
+    if (handoff) {
+      setPresetId(handoff.presetId ?? "");
+      setText(handoff.observations);
+      setAnswers(inferObservationContext(handoff.observations).answers);
+      setHandoffFloor(handoff.safetyFloor);
+      return;
+    }
     const id = params.get("problem");
     const match = PROBLEM_PRESETS.find((p) => p.id === id);
     if (match) {
@@ -97,6 +109,7 @@ function FixTool() {
           presetId: presetId || undefined,
           symptomText: text,
           answers,
+          safetyFloor: handoffFloor,
           profile: state.profileConfigured
             ? getTriageContext(state.profile)
             : undefined,
@@ -494,6 +507,7 @@ function FixTool() {
   );
 }
 export default function FixPage() {
+  const home = useFixdeedState();
   return (
     <Suspense
       fallback={
@@ -502,7 +516,7 @@ export default function FixPage() {
         </div>
       }
     >
-      <FixTool />
+      <FixTool key={getTriageSessionKey(home)} />
     </Suspense>
   );
 }

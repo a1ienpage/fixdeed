@@ -7,6 +7,7 @@ import { highestTier, type SafetyTier } from "@/lib/safetyGate";
 import { Icon } from "@/components/Icon";
 import { PageIntro, Notice } from "@/components/Workspace";
 import { TierBadge } from "@/components/TierBadge";
+import { getTriageSessionKey, putTriageHandoff } from "@/lib/triageSession";
 interface Reply {
   replyText: string;
   safetyTier: SafetyTier;
@@ -33,7 +34,7 @@ const STARTERS = [
   "My interior door started rubbing at the top.",
   "My washer has stopped draining.",
 ];
-export default function Assistant() {
+function AssistantTool() {
   const state = useFixdeedState();
   const [messages, setMessages] = useState<Item[]>([]);
   const [input, setInput] = useState("");
@@ -226,6 +227,22 @@ export default function Assistant() {
                           item.reply.safetyTier !== "PRO_REQUIRED" && (
                             <Link
                               className="text-link"
+                              onClick={() => {
+                                if (!item.reply?.canDiy)
+                                  putTriageHandoff({
+                                    scope: getTriageSessionKey(state),
+                                    observations: messages
+                                      .filter((m) => m.role === "user")
+                                      .map((m) => m.text)
+                                      .join("\n"),
+                                    presetId:
+                                      item.reply?.detectedPresetId ?? undefined,
+                                    safetyFloor:
+                                      safetyFloor ??
+                                      item.reply?.safetyFloor ??
+                                      item.reply?.safetyTier,
+                                  });
+                              }}
                               href={
                                 item.reply.canDiy &&
                                 item.reply.recommendedGuideSlug
@@ -360,4 +377,8 @@ export default function Assistant() {
       </div>
     </div>
   );
+}
+export default function Assistant() {
+  const home = useFixdeedState();
+  return <AssistantTool key={getTriageSessionKey(home)} />;
 }

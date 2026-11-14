@@ -22,6 +22,11 @@ describe("reported observations retain context", () => {
     "There is no fire yet, but smoke is coming from the outlet.",
     "I cannot rule out a gas leak.",
     "No gas smell and smoke is filling the room.",
+    "No smoke, fire is spreading",
+    "There was no smoke until now",
+    "No gas smell, I think",
+    "Maybe the CO alarm is not sounding",
+    "No smoke here, but there is in the kitchen",
   ])("preserves a positive or uncertain hazard: %s", (text) => {
     expect(scanText(text).tier).toBe("EMERGENCY");
   });
@@ -76,4 +81,43 @@ describe("reported observations retain context", () => {
     );
     expect((await response.json()).reply.safetyTier).toBe("EMERGENCY");
   });
+});
+it.each([
+  "My sink leaks, but not only when draining. I cannot confirm the valve is a clean quarter-turn lever.",
+  "My toilet doesn't have a loose handle.",
+  "My door does not rub the top.",
+])("does not approve a negated or unconfirmed symptom: %s", (symptomText) => {
+  expect(diagnoseDeterministic({ symptomText }).canDiy).toBe(false);
+});
+it("preserves a reported deteriorated valve against a reassuring selection", () => {
+  expect(
+    diagnoseDeterministic({
+      presetId: "sink-leaking",
+      symptomText: "My sink leaks only when draining; the valve is corroded",
+      answers: { timing: "when_running", valve_type: "quarter_lever" },
+    }).safetyTier,
+  ).toBe("PRO_REQUIRED");
+});
+it("escalates an outdoor AC fan symptom ahead of weak-airflow guidance", () => {
+  expect(
+    diagnoseDeterministic({
+      symptomText:
+        "My AC has weak airflow and no ice. The outdoor unit buzzes but the fan won't spin.",
+    }).canDiy,
+  ).toBe(false);
+});
+it("advances the washer starter after the hose observation", async () => {
+  const response = await assistant(
+    new Request("http://localhost/api/assistant", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        message: "The hose is kinked behind the washing machine",
+        history: [{ role: "user", text: "My washer has stopped draining" }],
+      }),
+    }),
+  );
+  const { reply } = await response.json();
+  expect(reply.detectedPresetId).toBe("washer-not-draining");
+  expect(reply.clarifyingQuestions).toEqual([]);
 });

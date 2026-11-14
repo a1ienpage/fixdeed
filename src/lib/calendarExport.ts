@@ -4,7 +4,7 @@ import { getTaskStatus } from "@/lib/scheduling";
 export function escapeCalendarText(value: string): string {
   return value
     .replace(/\\/g, "\\\\")
-    .replace(/\r?\n/g, "\\n")
+    .replace(/\r\n|\r|\n/g, "\\n")
     .replace(/;/g, "\\;")
     .replace(/,/g, "\\,");
 }
@@ -29,6 +29,7 @@ export function buildMaintenanceCalendar(
   profile: HomeProfile,
   completed: Record<string, string>,
   now = new Date(),
+  homeMode: "personal" | "demo" = "personal",
 ): string {
   const cadence = {
     Monthly: 1,
@@ -51,14 +52,21 @@ export function buildMaintenanceCalendar(
     end.setDate(end.getDate() + 1);
     const dateText = (d: Date) =>
       `${d.getFullYear()}${String(d.getMonth() + 1).padStart(2, "0")}${String(d.getDate()).padStart(2, "0")}`;
-    const anchorDay = Number((completed[task.id] ?? nextDue).slice(8, 10));
+    const last = completed[task.id];
+    const parsedLast = last ? new Date(last + "T12:00:00") : null;
+    const validLast =
+      parsedLast &&
+      Number.isFinite(parsedLast.getTime()) &&
+      dateText(parsedLast) <= dateText(now) &&
+      dateText(parsedLast) === last?.replace(/-/g, "");
+    const anchorDay = Number((validLast ? last : nextDue).slice(8, 10));
     const byDay =
       anchorDay > 28
         ? `;BYMONTHDAY=${Array.from({ length: anchorDay - 27 }, (_, i) => 28 + i).join(",")};BYSETPOS=-1`
         : `;BYMONTHDAY=${anchorDay}`;
     lines.push(
       "BEGIN:VEVENT",
-      `UID:${task.id}@fixdeed.local`,
+      `UID:${homeMode}-${task.id}@fixdeed.local`,
       `DTSTAMP:${now
         .toISOString()
         .replace(/[-:]/g, "")

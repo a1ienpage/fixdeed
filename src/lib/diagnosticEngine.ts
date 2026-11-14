@@ -382,7 +382,22 @@ export function diagnoseDeterministic(
   const text = params.symptomText.toLowerCase().replace(/\s+/g, " ").trim();
   const inferred = inferObservationContext(params.symptomText);
   const answers = { ...inferred.answers, ...params.answers };
-  params = { ...params, answers };
+  const stopValues = new Set([
+    "constantly",
+    "crusty_oval",
+    "water_rising_base",
+    "ice_frost",
+    "outdoor_buzz",
+    "warm_no_fan",
+    "large_wet",
+  ]);
+  for (const [key, value] of Object.entries(inferred.answers))
+    if (stopValues.has(value)) answers[key] = value;
+  params = {
+    ...params,
+    presetId: params.presetId ?? inferred.presetId,
+    answers,
+  };
   // Source conditions take precedence over lower-risk selections, even with incomplete answers.
   if (
     (/\b(?:wall|drywall|ceiling)\b/.test(text) &&
@@ -458,7 +473,10 @@ export function diagnoseDeterministic(
     )
   )
     return emptyResult(params);
-  const entityText = text.replace(/\bwall(?:-mounted)?\s+(?:shutoff|shut-off|supply|angle[ -]stop)(?:\s+valve)?\b/g, "shutoff valve");
+  const entityText = text.replace(
+    /\bwall(?:-mounted)?\s+(?:shutoff|shut-off|supply|angle[ -]stop)(?:\s+valve)?\b/g,
+    "shutoff valve",
+  );
   const seen = entities
     .filter(([, pattern]) => pattern.test(entityText))
     .map(([entity]) => entity);

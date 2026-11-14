@@ -1,0 +1,51 @@
+{
+  "label": "Modeled assumptions. No traction, payments, CAC or retention observed.",
+  "inputs": {
+    "annualPrice": 59,
+    "monthlyPrice": 7.99,
+    "paymentPercent": 0.036,
+    "paymentFixed": 0.3,
+    "monthlyDelivery": 1,
+    "monthlySupport": 0.5,
+    "monthlyFreeServiceAllocation": 0.25,
+    "refundReserve": 0.02,
+    "annualRenewal": 0.55,
+    "monthlyChurn": 0.08,
+    "fullyLoadedCacTarget": 20
+  },
+  "annual": {
+    "contribution": 34.4,
+    "contributionMarginPct": 58.3,
+    "contribution24Months": 53.31,
+    "contributionToCac24Months": 2.67
+  },
+  "monthly": {
+    "contribution": 5.49,
+    "expectedPaidMonths12": 7.9,
+    "expectedRevenue12": 63.15,
+    "contribution24Months": 59.38
+  },
+  "sensitivity": [
+    {
+      "cac": 20,
+      "annualFirstYearAfterAcquisition": 14.4,
+      "annual24MonthContributionToCac": 2.67
+    },
+    {
+      "cac": 30,
+      "annualFirstYearAfterAcquisition": 4.4,
+      "annual24MonthContributionToCac": 1.78
+    },
+    {
+      "cac": 40,
+      "annualFirstYearAfterAcquisition": -5.6,
+      "annual24MonthContributionToCac": 1.33
+    }
+  ],
+  "scale": {
+    "annualPayersFor100MARR": 1694916,
+    "broaderAge25to44ProxyHouseholds": 19450000,
+    "requiredProxyPenetrationPct": 8.71,
+    "warning": "All-tenure EIA 2024 age25–44 proxy, not the first-two-years segment, not willingness to pay. Ambition, not forecast."
+  }
+}

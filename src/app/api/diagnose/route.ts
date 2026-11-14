@@ -19,6 +19,9 @@ const RequestSchema = z
       .optional(),
     image: ImageSchema.optional(),
     profile: PartialProfileSchema.optional(),
+    safetyFloor: z
+      .enum(["DIY_SAFE", "DIY_CAUTION", "PRO_REQUIRED", "EMERGENCY"])
+      .optional(),
   })
   .refine(
     (v) =>
@@ -37,6 +40,7 @@ export async function POST(req: Request): Promise<Response> {
         answers: body.answers,
         profile: body.profile,
         hasPhoto: Boolean(body.image),
+        safetyFloor: body.safetyFloor,
       }),
     });
   } catch (error) {

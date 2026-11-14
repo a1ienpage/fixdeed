@@ -2,6 +2,9 @@
 /.pnp
 .pnp.*
 /.next/
+/.next-*/
+/.superpowers/
+/.vercel/
 /out/
 /build
 /coverage

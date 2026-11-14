@@ -41,7 +41,7 @@ export default function PreventPage() {
   function exportCalendar() {
     downloadText(
       "fixdeed-maintenance.ics",
-      buildMaintenanceCalendar(state.profile, state.completedPreventive),
+      buildMaintenanceCalendar(state.profile, state.completedPreventive, new Date(), state.dataMode),
       "text/calendar;charset=utf-8",
     );
     setCalendarMessage(

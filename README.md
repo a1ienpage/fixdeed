@@ -1,49 +1,63 @@
-# Fixdeed — Your home. Handled.
+# Fixdeed
 
-English browser-based home-care MVP for first-time US homeowners. Built with Next.js 16.4.6, React 19 and TypeScript.
+Home-care decisions for US first-time homeowners aged 25–45. Zimran Business Cup, Money track. Built by **extra moggers**: Aliaskar (captain and coder), Zhamilya (economics and speaker).
 
-## Run locally
+## Run
 
 ```sh
-npm install
+npm ci
 npm run dev -- --hostname 127.0.0.1 --port 3000
 ```
 
-Open http://127.0.0.1:3000. No API key is needed. Keep existing local environment files private; this MVP does not read a model key or call an external AI provider.
-
-## Working flows
-
-- `/`: explanatory landing page, interactive home illustration, feature walkthrough and illustrative cost calculator.
-- `/fix`: guided questions, conservative symptom triage, emergency/professional stops, unknown-case clarification and contextual lessons. Partial observations can trigger a stop immediately. Changed input cancels and revokes older responses.
-- `/my-home`: profile, actual self-reported repair ledger, current maintenance coverage, practiced skills, sample-home switch, JSON export and verified browser-data clearing.
-- `/prevent`: due/upcoming/overdue tasks, calendar view, filters, completion and next-due calculation with calendar-month recurrence.
-- `/guides`: 12 searchable practical lessons, component diagrams, fixture-specific first-instinct questions and different transfer scenarios. Learning never creates repair or money records.
-- `/assistant`: contextual guided responses with a safety floor retained through follow-up questions. Conversation resets on reload or explicit new conversation.
-- `/privacy` and `/safety`: plain-language limits, data handling and official emergency-reference links.
-
-## Honest boundaries
-
-This is guided, deterministic triage. It does not process photographs, provide professional inspections, generate repair procedures with an AI model, certify skills, take payments or synchronize households. The UI states these limits. Equipment-specific work may require the manufacturer's instructions or a qualified professional.
-
-A fresh personal home starts with zero repairs, skills and avoided cost. Sample data uses a separate storage namespace. A confirmed repair requires an entered quote, actual expenses and a completion confirmation; duplicate submissions of that confirmation are rejected. Amounts are self-reported quote-minus-spend, not independently verified savings. Maintenance coverage is the share of currently unexpired completions, not a physical home-health score.
-
-Profile/ledger/checklist/skill records are browser-local and not encrypted. Requests send only observations, selected answers and build-year/era context; the assistant also sends recent conversation and safety status. Saved home names, private notes, inventory and ledger are excluded. Browser/device access remains the user's responsibility. Export is available before data clearing; failures do not claim successful deletion.
-
-## Checks
+No provider keys, account or external AI service is required. Use Node.js 22 or 24. The production build explicitly uses Next.js webpack compilation.
 
 ```sh
 npm test
 npx tsc --noEmit --incremental false
 npm run build
+npm run start
 ```
 
-To build without touching a running dev server's cache:
+For a separate cache while a development server runs:
 
 ```sh
-FIXDEED_BUILD_DIR=.next-build NEXT_TELEMETRY_DISABLED=1 npm run build
-FIXDEED_BUILD_DIR=.next-build npm run start -- --hostname 127.0.0.1 --port 3002
+FIXDEED_BUILD_DIR=.next-build npm run build
+FIXDEED_BUILD_DIR=.next-build npm run start -- --port 3002
 ```
 
-Production fonts are system fonts; a build does not need Google Fonts. Turbopack may require permission to create a local worker port in restricted environments.
+## Jury walkthrough
 
-Regression coverage includes ordinary emergency phrasing, conflicting presets, model-output authority, assistant history/floor, unknown inputs, request bounds, confirmed-cost calculations, idempotence, personal/demo isolation and corruption, storage failure/deletion, month-end and leap-year recurrence, expired cycles, distinct skill assessments, delayed-response invalidation and minimal outbound context.
+1. Open `/fix`. Choose a sink issue, select its observations, or enter your own supported description. Higher-risk symptoms override reassuring selections. Unsupported descriptions ask for details.
+2. After a non-emergency result, choose **Save this decision**. The paywall shows the proposed $59/year or $7.99/month price. Acknowledge the **demonstration checkout** and activate Plus demo. It charges $0, takes no card, creates no subscription and does not integrate with Stripe.
+3. Open `/cases`. The original observations and bounded result stay attached to the case. Add up to five quotes with work included, exclusions and warranty. The difference between amounts is arithmetic, not a recommendation or verified saving.
+4. Download the contractor brief. It is a local text file; nothing is sent to a contractor.
+5. Open `/prevent`. Complete a task to calculate its next due date. Plus exports recurring `.ics` events with reminder alarms for manual calendar import. Re-import after changing completion dates; no automatic sync or in-app background notification service exists.
+6. Explore `/guides`. First instinct, explanation and a different situation build a separate practice record. A lesson never creates a repair or money record.
+7. `/plans` and `/my-home` offer **Open sample home**. Existing sample cases survive reopening. Sample records and personal records stay separate. Changing the active home invalidates the current triage/chat draft. Personal JSON export and deletion controls remain free.
+
+## Free and proposed paid value
+
+Free: all safety stops, guided checks, explanations, all 12 lessons and practice scenarios, maintenance list/repeat dates, completed repair ledger and personal JSON export/deletion.
+
+Plus demo: saved decision cases/follow-up notes, contractor quote scope comparison, local contractor brief downloads and recurring maintenance calendar exports. This is a testable product/pricing hypothesis, not evidence that anyone has paid. Entitlement is browser-local demonstration state, not production payment security. A production launch needs real billing, entitlement verification and applicable terms before charging.
+
+## Honest limits
+
+This is deterministic guided triage and a small curated library, not a professional diagnosis, inspection, safety certification or image analysis. It does not replace manufacturer instructions or qualified service. It cannot establish that a hazard has resolved. No real expert consultations, contractor bookings, household cloud sync or background notifications are included. Conservative language checks can ask for clarification or escalate too broadly; tests are finite and do not certify real-world safety.
+
+A personal home starts with no invented repairs, skills or avoided cost. Repair costs are explicitly self-reported quote minus spend, clipped at zero as avoided cost, not independently verified savings or proof of product impact. Case resolution and quote comparison never add money. Browser-local records are not encrypted or backed up. Export before clearing data or changing devices.
+
+Only observations, selected answers and construction-era context go to the same-origin app server. Saved private home names/notes, cases, quotes, inventory and ledger are excluded. No external AI provider receives requests. A memory-only, one-use assistant handoff expires after five minutes and is scoped to the active home.
+
+## Evidence and economics
+
+- `docs/business-research.md`: primary sources, competitor caveats, market scope and validation experiments checked 15 November 2026.
+- `scripts/economics.mjs`: reproducible annual/monthly contribution and retention model. Run `node scripts/economics.mjs`.
+- `docs/economics-model.json`: output snapshot, assumptions explicitly labeled.
+- `docs/QA.md`: observed checks and remaining limitations.
+
+No real interviews, paying customers, acquisition costs, renewal rates or quantified savings have been claimed. Public research supports the problem and competitive context; it does not validate Fixdeed demand.
+
+## Deployment
+
+Import this Next.js project into Vercel. If uploaded under a `fixdeed/` directory, set **Root Directory = fixdeed**. Build command: `npm run build`. No environment variables are required. Keep the submitted product available through the end of judging, without registration, payment or deployment-protection prompts. Never upload `.env`, keys, `node_modules` or `.next*` caches.
