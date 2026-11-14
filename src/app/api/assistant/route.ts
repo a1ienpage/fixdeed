@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { diagnoseDeterministic } from "@/lib/diagnosticEngine";
 import { EMERGENCY_STEPS, highestTier, scanText } from "@/lib/safetyGate";
+import { inferObservationContext } from "@/lib/observationContext";
 import {
   ImageSchema,
   PartialProfileSchema,
@@ -53,6 +54,7 @@ export async function POST(req: Request): Promise<Response> {
       .filter((item) => item.role === "user")
       .map((item) => item.text);
     const relevantText = [...priorUser, message].join("\n");
+    const observations = inferObservationContext(relevantText);
     const safetyText = [
       ...(body.history ?? []).map((item) =>
         item.role === "assistant" ? assistantFacts(item.text) : item.text,
@@ -92,6 +94,8 @@ export async function POST(req: Request): Promise<Response> {
         estimatedSavingsUsd: 0,
         recommendedGuideSlug: result.recommendedGuideSlug,
         engineMode: result.engineMode,
+        steps: result.steps,
+        detectedPresetId: observations.presetId ?? null,
       },
     });
   } catch (error) {

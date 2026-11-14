@@ -10,6 +10,7 @@ import {
   type SafetyTier,
 } from "@/lib/safetyGate";
 import type { HomeProfile } from "@/lib/homeStore";
+import { inferObservationContext } from "@/lib/observationContext";
 
 export interface PriceBenchmark {
   id: string;
@@ -379,7 +380,9 @@ export function diagnoseDeterministic(
     };
   }
   const text = params.symptomText.toLowerCase().replace(/\s+/g, " ").trim();
-  const answers = params.answers ?? {};
+  const inferred = inferObservationContext(params.symptomText);
+  const answers = { ...inferred.answers, ...params.answers };
+  params = { ...params, answers };
   // Source conditions take precedence over lower-risk selections, even with incomplete answers.
   if (
     (/\b(?:wall|drywall|ceiling)\b/.test(text) &&
@@ -455,8 +458,9 @@ export function diagnoseDeterministic(
     )
   )
     return emptyResult(params);
+  const entityText = text.replace(/\bwall(?:-mounted)?\s+(?:shutoff|shut-off|supply|angle[ -]stop)(?:\s+valve)?\b/g, "shutoff valve");
   const seen = entities
-    .filter(([, pattern]) => pattern.test(text))
+    .filter(([, pattern]) => pattern.test(entityText))
     .map(([entity]) => entity);
   if (seen.length > 1)
     return {
