@@ -1,0 +1,302 @@
+[
+  {
+    "id": "toilet_flapper",
+    "task": "Replace worn toilet flapper and chain",
+    "tier": "DIY_SAFE",
+    "proLow": 130,
+    "proHigh": 200,
+    "diyParts": 12,
+    "minutes": 15,
+    "source": "https://homeguide.com/costs/toilet-repair-cost"
+  },
+  {
+    "id": "toilet_fill_valve",
+    "task": "Replace running toilet tank fill valve / float assembly",
+    "tier": "DIY_SAFE",
+    "proLow": 110,
+    "proHigh": 250,
+    "diyParts": 18,
+    "minutes": 25,
+    "source": "https://homeguide.com/costs/toilet-repair-cost"
+  },
+  {
+    "id": "toilet_seat",
+    "task": "Replace loose or cracked toilet seat",
+    "tier": "DIY_SAFE",
+    "proLow": 60,
+    "proHigh": 190,
+    "diyParts": 35,
+    "minutes": 15,
+    "source": "https://homeguide.com/costs/toilet-repair-cost"
+  },
+  {
+    "id": "toilet_clog",
+    "task": "Unclog a blocked toilet with a closet auger",
+    "tier": "DIY_SAFE",
+    "proLow": 100,
+    "proHigh": 275,
+    "diyParts": 22,
+    "minutes": 20,
+    "source": "https://homeguide.com/costs/toilet-repair-cost"
+  },
+  {
+    "id": "toilet_wax_ring",
+    "task": "Reseat leaking toilet base with new wax ring and bolts",
+    "tier": "DIY_CAUTION",
+    "proLow": 130,
+    "proHigh": 300,
+    "diyParts": 15,
+    "minutes": 75,
+    "source": "https://homeguide.com/costs/toilet-repair-cost"
+  },
+  {
+    "id": "sink_ptrap",
+    "task": "Clear slow sink P-trap / branch drain",
+    "tier": "DIY_SAFE",
+    "proLow": 100,
+    "proHigh": 275,
+    "diyParts": 10,
+    "minutes": 25,
+    "source": "https://homeguide.com/costs/cost-to-unclog-snake-a-drain"
+  },
+  {
+    "id": "main_sewer",
+    "task": "Snake clogged main sewer line",
+    "tier": "PRO_REQUIRED",
+    "proLow": 200,
+    "proHigh": 650,
+    "diyParts": 0,
+    "minutes": 0,
+    "source": "https://homeguide.com/costs/cost-to-unclog-snake-a-drain"
+  },
+  {
+    "id": "faucet_drip",
+    "task": "Fix dripping faucet cartridge, O-ring, washer or aerator",
+    "tier": "DIY_SAFE",
+    "proLow": 125,
+    "proHigh": 350,
+    "diyParts": 20,
+    "minutes": 30,
+    "source": "https://homeguide.com/costs/plumber-cost"
+  },
+  {
+    "id": "faucet_replace",
+    "task": "Replace kitchen or bathroom faucet",
+    "tier": "DIY_CAUTION",
+    "proLow": 200,
+    "proHigh": 600,
+    "diyParts": 110,
+    "minutes": 60,
+    "source": "https://homeguide.com/costs/faucet-installation-cost"
+  },
+  {
+    "id": "disposal_replace",
+    "task": "Replace existing garbage disposal",
+    "tier": "DIY_CAUTION",
+    "proLow": 200,
+    "proHigh": 550,
+    "diyParts": 130,
+    "minutes": 60,
+    "source": "https://homeguide.com/costs/garbage-disposal-installation-cost"
+  },
+  {
+    "id": "drywall_small",
+    "task": "Patch small drywall hole (under 4 inches)",
+    "tier": "DIY_SAFE",
+    "proLow": 300,
+    "proHigh": 500,
+    "diyParts": 18,
+    "minutes": 45,
+    "source": "https://homeguide.com/costs/drywall-repair-cost"
+  },
+  {
+    "id": "drywall_large",
+    "task": "Repair large or water-damaged drywall section",
+    "tier": "DIY_CAUTION",
+    "proLow": 500,
+    "proHigh": 1500,
+    "diyParts": 65,
+    "minutes": 180,
+    "source": "https://homeguide.com/costs/drywall-repair-cost"
+  },
+  {
+    "id": "door_sticking",
+    "task": "Fix sticking door, loose hinge or misaligned strike plate",
+    "tier": "DIY_SAFE",
+    "proLow": 132,
+    "proHigh": 372,
+    "diyParts": 12,
+    "minutes": 30,
+    "source": "https://homeguide.com/costs/door-repair-cost"
+  },
+  {
+    "id": "dryer_vent",
+    "task": "Clean accessible first-floor dryer vent",
+    "tier": "DIY_SAFE",
+    "proLow": 80,
+    "proHigh": 185,
+    "diyParts": 25,
+    "minutes": 35,
+    "source": "https://homeguide.com/costs/dryer-vent-cleaning-cost"
+  },
+  {
+    "id": "dryer_vent_roof",
+    "task": "Clean dryer vent exiting on a second-story roof",
+    "tier": "PRO_REQUIRED",
+    "proLow": 150,
+    "proHigh": 250,
+    "diyParts": 0,
+    "minutes": 0,
+    "source": "https://homeguide.com/costs/dryer-vent-cleaning-cost"
+  },
+  {
+    "id": "gutters",
+    "task": "Clean single-story gutters",
+    "tier": "DIY_CAUTION",
+    "proLow": 100,
+    "proHigh": 250,
+    "diyParts": 15,
+    "minutes": 90,
+    "source": "https://homeguide.com/costs/gutter-cleaning-cost"
+  },
+  {
+    "id": "outlet_replace",
+    "task": "Replace standard 120V outlet or GFCI (breaker verified off)",
+    "tier": "DIY_CAUTION",
+    "proLow": 80,
+    "proHigh": 200,
+    "diyParts": 18,
+    "minutes": 30,
+    "source": "https://homeguide.com/costs/electrical-outlet-repair-cost"
+  },
+  {
+    "id": "thermostat",
+    "task": "Replace existing low-voltage thermostat",
+    "tier": "DIY_CAUTION",
+    "proLow": 140,
+    "proHigh": 350,
+    "diyParts": 85,
+    "minutes": 35,
+    "source": "https://homeguide.com/costs/thermostat-installation-cost"
+  },
+  {
+    "id": "smoke_alarm_hardwired",
+    "task": "Replace hardwired smoke/CO alarm on existing harness",
+    "tier": "DIY_CAUTION",
+    "proLow": 140,
+    "proHigh": 350,
+    "diyParts": 45,
+    "minutes": 25,
+    "source": "https://homeguide.com/costs/electrician-cost-per-hour"
+  },
+  {
+    "id": "ceiling_fan_swap",
+    "task": "Swap ceiling fan on an existing fan-rated box",
+    "tier": "DIY_CAUTION",
+    "proLow": 150,
+    "proHigh": 500,
+    "diyParts": 140,
+    "minutes": 75,
+    "source": "https://homeguide.com/costs/ceiling-fan-installation-cost"
+  },
+  {
+    "id": "ceiling_fan_new",
+    "task": "Install ceiling fan where no box or wiring exists",
+    "tier": "PRO_REQUIRED",
+    "proLow": 400,
+    "proHigh": 1000,
+    "diyParts": 0,
+    "minutes": 0,
+    "source": "https://homeguide.com/costs/ceiling-fan-installation-cost"
+  },
+  {
+    "id": "breaker_replace",
+    "task": "Replace faulty branch circuit breaker",
+    "tier": "PRO_REQUIRED",
+    "proLow": 100,
+    "proHigh": 260,
+    "diyParts": 0,
+    "minutes": 0,
+    "source": "https://homeguide.com/costs/cost-to-replace-a-circuit-breaker-switch"
+  },
+  {
+    "id": "main_breaker",
+    "task": "Replace main service breaker",
+    "tier": "PRO_REQUIRED",
+    "proLow": 200,
+    "proHigh": 600,
+    "diyParts": 0,
+    "minutes": 0,
+    "source": "https://homeguide.com/costs/cost-to-replace-a-circuit-breaker-switch"
+  },
+  {
+    "id": "ev_charger",
+    "task": "Install 240V Level-2 EV charger circuit",
+    "tier": "PRO_REQUIRED",
+    "proLow": 750,
+    "proHigh": 2600,
+    "diyParts": 0,
+    "minutes": 0,
+    "source": "https://homeguide.com/costs/electrician-cost-per-hour"
+  },
+  {
+    "id": "water_heater_flush",
+    "task": "Flush sediment from tank water heater",
+    "tier": "DIY_CAUTION",
+    "proLow": 75,
+    "proHigh": 250,
+    "diyParts": 15,
+    "minutes": 45,
+    "source": "https://homeguide.com/costs/water-heater-repair-cost"
+  },
+  {
+    "id": "water_heater_gas_valve",
+    "task": "Replace gas control valve on water heater",
+    "tier": "PRO_REQUIRED",
+    "proLow": 150,
+    "proHigh": 550,
+    "diyParts": 0,
+    "minutes": 0,
+    "source": "https://homeguide.com/costs/water-heater-repair-cost"
+  },
+  {
+    "id": "water_heater_replace",
+    "task": "Replace leaking tank water heater",
+    "tier": "PRO_REQUIRED",
+    "proLow": 600,
+    "proHigh": 1800,
+    "diyParts": 0,
+    "minutes": 0,
+    "source": "https://homeguide.com/costs/water-heater-repair-cost"
+  },
+  {
+    "id": "gas_leak",
+    "task": "Repair gas line fitting or gas pipe leak",
+    "tier": "EMERGENCY",
+    "proLow": 150,
+    "proHigh": 3000,
+    "diyParts": 0,
+    "minutes": 0,
+    "source": "https://homeguide.com/costs/gas-line-repair-cost"
+  },
+  {
+    "id": "ac_capacitor",
+    "task": "Replace AC condenser capacitor",
+    "tier": "PRO_REQUIRED",
+    "proLow": 250,
+    "proHigh": 400,
+    "diyParts": 0,
+    "minutes": 0,
+    "source": "https://homeguide.com/costs/ac-capacitor-replacement-cost"
+  },
+  {
+    "id": "garage_spring",
+    "task": "Replace garage door torsion spring",
+    "tier": "PRO_REQUIRED",
+    "proLow": 150,
+    "proHigh": 350,
+    "diyParts": 0,
+    "minutes": 0,
+    "source": "https://homeguide.com/costs/garage-door-spring-replacement-cost"
+  }
+]
