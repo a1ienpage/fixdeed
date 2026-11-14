@@ -204,8 +204,16 @@ export default function Assistant() {
                               : "Next step"}
                           </h4>
                           {item.reply.canDiy && item.reply.steps?.length ? (
-                            <ol className="chat-steps">{item.reply.steps.map((step) => <li key={step}>{step}</li>)}</ol>
-                          ) : <p className="chat-next">{item.reply.nextSafeStep}</p>}
+                            <ol className="chat-steps">
+                              {item.reply.steps.map((step) => (
+                                <li key={step}>{step}</li>
+                              ))}
+                            </ol>
+                          ) : (
+                            <p className="chat-next">
+                              {item.reply.nextSafeStep}
+                            </p>
+                          )}
                         </div>
                         {item.reply.materials.length > 0 &&
                           item.reply.canDiy && (
@@ -216,8 +224,18 @@ export default function Assistant() {
                           )}
                         {item.reply.safetyTier !== "EMERGENCY" &&
                           item.reply.safetyTier !== "PRO_REQUIRED" && (
-                            <Link className="text-link" href={item.reply.canDiy && item.reply.recommendedGuideSlug ? `/guides/${item.reply.recommendedGuideSlug}` : `/fix${item.reply.detectedPresetId ? `?problem=${encodeURIComponent(item.reply.detectedPresetId)}` : ""}`}>
-                              {item.reply.canDiy ? "Understand the parts and limits" : "Continue with structured checks"}
+                            <Link
+                              className="text-link"
+                              href={
+                                item.reply.canDiy &&
+                                item.reply.recommendedGuideSlug
+                                  ? `/guides/${item.reply.recommendedGuideSlug}`
+                                  : `/fix${item.reply.detectedPresetId ? `?problem=${encodeURIComponent(item.reply.detectedPresetId)}` : ""}`
+                              }
+                            >
+                              {item.reply.canDiy
+                                ? "Understand the parts and limits"
+                                : "Continue with structured checks"}
                               <Icon name="arrow" size={15} />
                             </Link>
                           )}

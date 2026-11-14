@@ -15,6 +15,7 @@ import { PageIntro, Notice } from "@/components/Workspace";
 import { TierBadge } from "@/components/TierBadge";
 import { ModalDialog } from "@/components/ModalDialog";
 import { RepairLogForm } from "@/components/RepairLogForm";
+import { SaveCaseAction } from "@/components/SaveCaseAction";
 const ICONS: Record<string, IconName> = {
   "sink-leaking": "drop",
   "toilet-wont-flush": "layers",
@@ -358,6 +359,18 @@ function FixTool() {
                   </div>
                 )}
               </section>
+              <SaveCaseAction
+                result={result}
+                observations={[
+                  text,
+                  ...(preset?.clarifyingPrompts ?? [])
+                    .filter((q) => answers[q.id])
+                    .map(
+                      (q) =>
+                        `${q.question} ${q.options.find((o) => o.value === answers[q.id])?.label ?? "Not sure / cannot check safely"}`,
+                    ),
+                ].join("\n")}
+              />
               {result.canDiy && result.toolsNeeded.length > 0 && (
                 <section className="surface">
                   <h3>What the guide calls for</h3>

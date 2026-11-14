@@ -13,6 +13,10 @@ import { filterTasksForProfile } from "@/content/preventive";
 import { getTaskStatus, getMaintenanceCoverage } from "@/lib/scheduling";
 import { Icon } from "@/components/Icon";
 import { PageIntro, Notice, EmptyState } from "@/components/Workspace";
+import { PlusPaywall } from "@/components/PlusPaywall";
+import { hasPlusAccess } from "@/lib/plans";
+import { buildMaintenanceCalendar } from "@/lib/calendarExport";
+import { downloadText } from "@/lib/download";
 const dateLabel = (d: string) =>
   new Date(d + "T12:00:00").toLocaleDateString("en-US", {
     month: "short",
@@ -32,6 +36,18 @@ export default function PreventPage() {
   );
   const [day, setDay] = useState<string | null>(null);
   const [message, setMessage] = useState("");
+  const [calendarPaywall, setCalendarPaywall] = useState(false);
+  const [calendarMessage, setCalendarMessage] = useState("");
+  function exportCalendar() {
+    downloadText(
+      "fixdeed-maintenance.ics",
+      buildMaintenanceCalendar(state.profile, state.completedPreventive),
+      "text/calendar;charset=utf-8",
+    );
+    setCalendarMessage(
+      "Calendar file downloaded. Import it into your calendar app and allow its reminders. Re-import after changing completion dates; this file does not sync automatically.",
+    );
+  }
   const tasks = filterTasksForProfile(state.profile)
     .map((task) => ({
       task,
@@ -202,6 +218,38 @@ export default function PreventPage() {
           </button>
         </div>
       </div>
+      <section className="calendar-export-strip">
+        <div>
+          <h3>Put the next check in your calendar.</h3>
+          <p>
+            Export recurring tasks with reminder alarms. Import the file into
+            Apple Calendar, Google Calendar or Outlook.
+          </p>
+          <p className="small muted">
+            Manual import. Calendar apps control reminder delivery. Re-import
+            after updates; no automatic sync.
+          </p>
+        </div>
+        <button
+          className="button button-outline"
+          onClick={() =>
+            hasPlusAccess(state) ? exportCalendar() : setCalendarPaywall(true)
+          }
+        >
+          Export recurring calendar <Icon name="download" size={17} />
+        </button>
+      </section>
+      {calendarMessage && (
+        <p className="success-feedback" role="status">
+          {calendarMessage}
+        </p>
+      )}
+      <PlusPaywall
+        open={calendarPaywall}
+        onClose={() => setCalendarPaywall(false)}
+        onActivated={exportCalendar}
+        reason="Move repeat checks into the calendar you already use, with a reminder before each task."
+      />
       {view === "calendar" && (
         <section className="surface month-calendar">
           <div className="surface-header">

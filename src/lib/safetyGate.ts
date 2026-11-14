@@ -7,10 +7,7 @@
  */
 
 export type SafetyTier =
-  | "DIY_SAFE"
-  | "DIY_CAUTION"
-  | "PRO_REQUIRED"
-  | "EMERGENCY";
+  "DIY_SAFE" | "DIY_CAUTION" | "PRO_REQUIRED" | "EMERGENCY";
 
 export const TIER_RANK: Record<SafetyTier, number> = {
   DIY_SAFE: 0,
@@ -222,11 +219,31 @@ export function scanText(text: string | null | undefined): ScanResult {
 
 /** Local absence statements are not incident reports. Uncertainty never cancels a stop. */
 function suppressExplicitAbsences(text: string): string {
-  const uncertain = (offset: number) => /\b(?:not sure|unsure|cannot confirm|can't confirm|cannot rule out|can't rule out|might|maybe|possibly|probably|think)\b[^.!?;]{0,60}$/i.test(text.slice(Math.max(0, offset - 90), offset));
-  const hazard = "(?:smoke(?!\\s+(?:alarm|detector)\\b)|fire|flames?|sparks?|(?:natural\\s+)?gas\\s+(?:smell|odou?r|leak)|(?:smell|odou?r)(?:\\s+of)?\\s+(?:natural\\s+)?gas)";
-  const absent = new RegExp(`\\b(?:no|without)\\s+(?:(?:visible|active|apparent)\\s+)?${hazard}(?:\\s*(?:,|or|and)\\s*(?:no\\s+)?${hazard}){0,3}\\b`, "gi");
-  let result = text.replace(absent, (match, offset: number) => uncertain(offset) || /^\s+(?:yet|maybe)\b/i.test(text.slice(offset + match.length)) ? match : " [explicitly absent] ");
-  result = result.replace(/\b(?:smoke|co|carbon monoxide)\s+(?:alarm|detector)\s+(?:(?:is|was)\s+)?(?:not|isn't|wasn't)\s+(?:going off|sounding|activated|triggered)\b/gi, (match, offset: number) => /\b(?:not sure|unsure|might)\b[^.!?;]{0,60}$/i.test(result.slice(Math.max(0,offset-90),offset)) ? match : " [alarm reported inactive] ");
+  const uncertain = (offset: number) =>
+    /\b(?:not sure|unsure|cannot confirm|can't confirm|cannot rule out|can't rule out|might|maybe|possibly|probably|think)\b[^.!?;]{0,60}$/i.test(
+      text.slice(Math.max(0, offset - 90), offset),
+    );
+  const hazard =
+    "(?:smoke(?!\\s+(?:alarm|detector)\\b)|fire|flames?|sparks?|(?:natural\\s+)?gas\\s+(?:smell|odou?r|leak)|(?:smell|odou?r)(?:\\s+of)?\\s+(?:natural\\s+)?gas)";
+  const absent = new RegExp(
+    `\\b(?:no|without)\\s+(?:(?:visible|active|apparent)\\s+)?${hazard}(?:\\s*(?:,|or)\\s*(?:no\\s+)?${hazard}|\\s+and\\s+no\\s+${hazard}){0,3}\\b`,
+    "gi",
+  );
+  let result = text.replace(absent, (match, offset: number) =>
+    uncertain(offset) ||
+    /^\s+(?:yet|maybe)\b/i.test(text.slice(offset + match.length))
+      ? match
+      : " [explicitly absent] ",
+  );
+  result = result.replace(
+    /\b(?:smoke|co|carbon monoxide)\s+(?:alarm|detector)\s+(?:(?:is|was)\s+)?(?:not|isn't|wasn't)\s+(?:going off|sounding|activated|triggered)\b/gi,
+    (match, offset: number) =>
+      /\b(?:not sure|unsure|might)\b[^.!?;]{0,60}$/i.test(
+        result.slice(Math.max(0, offset - 90), offset),
+      )
+        ? match
+        : " [alarm reported inactive] ",
+  );
   return result;
 }
 

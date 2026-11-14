@@ -18,7 +18,7 @@ export default function Privacy() {
           <h2>What stays on your device</h2>
           <p>
             Your home profile, completed maintenance, practiced skills and
-            repair ledger are stored in this browser's local storage. A separate
+            repair ledger, saved decision cases, follow-up notes and entered contractor quotes are stored in this browser's local storage. A separate
             sample-home record keeps demo history apart from your personal
             records. No address, email, payment information or account is
             required.
@@ -31,7 +31,7 @@ export default function Privacy() {
             the app sends your description, selected answers, and only your
             home's build year and derived construction era to its server. The
             assistant also sends recent conversation and its safety status. Your
-            saved home nickname, notes, equipment inventory and repair ledger
+            saved home nickname, notes, equipment inventory, decision cases, quote amounts and repair ledger
             are not included. The current implementation does not call an
             external AI model, analyze images or save this chat in an
             application database. Chat history stays in memory until you reload

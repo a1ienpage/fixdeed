@@ -13,6 +13,8 @@ const LINKS = [
   { href: "/prevent", label: "Maintenance" },
   { href: "/guides", label: "Learn" },
   { href: "/assistant", label: "Home assistant" },
+  { href: "/cases", label: "Decision cases" },
+  { href: "/plans", label: "Plans" },
 ];
 export function Brand() {
   return (
@@ -79,6 +81,12 @@ export function Header() {
             Return to my home
             <Icon name="arrow" size={13} />
           </button>
+        </div>
+      )}
+      {hydrated && state.plusDemo && state.dataMode !== "demo" && (
+        <div className="plus-demo-bar">
+          <span>Plus demo active in this browser. No billing.</span>
+          <Link href="/plans">Manage demo access</Link>
         </div>
       )}
     </header>

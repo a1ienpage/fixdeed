@@ -35,6 +35,8 @@ export default function RootLayout({
               <Link href="/prevent">Maintenance</Link>
               <Link href="/guides">Practical skills</Link>
               <Link href="/assistant">Home assistant</Link>
+              <Link href="/cases">Decision cases</Link>
+              <Link href="/plans">Free & Plus plans</Link>
             </nav>
             <div className="footer-note">
               <Icon name="lock" size={18} />

@@ -18,6 +18,8 @@ import { PREVENTIVE_TASKS } from "@/content/preventive";
 import { getGuideBySlug } from "@/content/guides";
 import { getTransferCase } from "@/content/practice";
 import { getTaskStatus } from "@/lib/scheduling";
+import { DecisionCaseSchema, type DecisionCase } from "@/lib/decisionCases";
+import { hasPlusAccess } from "@/lib/plans";
 
 export const STORAGE_KEY = "fixdeed:v2";
 export const DEMO_STORAGE_KEY = "fixdeed:demo:v2";
@@ -157,6 +159,66 @@ export function updateProfile(patch: Partial<HomeProfile>): void {
 }
 export function setPlanTier(planTier: PlanTier): void {
   updateProfile({ planTier });
+}
+export function activateDemoPlus(): void {
+  const current = readState();
+  writeState({
+    ...current,
+    plusDemo: true,
+    profile: { ...current.profile, planTier: "plus" },
+  });
+}
+export function disableDemoPlus(): void {
+  const current = readState();
+  writeState({
+    ...current,
+    plusDemo: false,
+    profile: { ...current.profile, planTier: "free" },
+  });
+}
+export function saveDecisionCase(item: DecisionCase): {
+  ok: boolean;
+  error?: string;
+} {
+  const current = readState();
+  if (!hasPlusAccess(current))
+    return {
+      ok: false,
+      error:
+        "Activate Plus demo to save a decision case. Safety checks remain free.",
+    };
+  const parsed = DecisionCaseSchema.safeParse(item);
+  if (!parsed.success)
+    return {
+      ok: false,
+      error: parsed.error.issues[0]?.message ?? "Invalid case.",
+    };
+  const existing = current.decisionCases.find((c) => c.id === item.id);
+  if (!existing && current.decisionCases.length >= 100)
+    return {
+      ok: false,
+      error:
+        "This browser has reached the 100-case limit. Export your records before starting a new home.",
+    };
+  // Notes/status/quotes may change, but a recorded result must retain its original observations.
+  if (
+    existing &&
+    (existing.observations !== item.observations ||
+      JSON.stringify(existing.snapshot) !== JSON.stringify(item.snapshot) ||
+      existing.createdAt !== item.createdAt)
+  )
+    return {
+      ok: false,
+      error:
+        "Original observations and guided results are preserved. Run a new check for changed symptoms.",
+    };
+  writeState({
+    ...current,
+    decisionCases: existing
+      ? current.decisionCases.map((c) => (c.id === item.id ? parsed.data : c))
+      : [parsed.data, ...current.decisionCases],
+  });
+  return { ok: true };
 }
 export function completePreventiveTask(taskId: string): void {
   if (!PREVENTIVE_TASKS.some((task) => task.id === taskId)) return;

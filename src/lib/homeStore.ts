@@ -2,14 +2,12 @@ import { GUIDES } from "@/content/guides";
 import { z } from "zod";
 import { filterTasksForProfile } from "@/content/preventive";
 import { getMaintenanceCoverage } from "@/lib/scheduling";
+import { DecisionCaseSchema, type DecisionCase } from "@/lib/decisionCases";
 
 export type HousingType = "house" | "apartment" | "townhome";
 export type HomeEra = "pre1980" | "1980_2000" | "post2000";
 export type HvacType =
-  | "central_ac_gas"
-  | "heat_pump"
-  | "window_mini_split"
-  | "radiator_no_ac";
+  "central_ac_gas" | "heat_pump" | "window_mini_split" | "radiator_no_ac";
 export type PlanTier = "free" | "plus" | "family";
 
 export type ApplianceId =
@@ -58,6 +56,8 @@ export interface UnlockedSkill {
 }
 
 export interface FixdeedState {
+  decisionCases: DecisionCase[];
+  plusDemo: boolean;
   dataMode: "personal" | "demo";
   profileConfigured: boolean;
   profile: HomeProfile;
@@ -90,6 +90,8 @@ export const HVAC_LABELS: Record<HvacType, string> = {
 };
 
 export const DEMO_STATE: FixdeedState = {
+  decisionCases: [],
+  plusDemo: true,
   dataMode: "demo",
   profileConfigured: true,
   profile: {
@@ -174,6 +176,8 @@ export const DEMO_STATE: FixdeedState = {
 };
 
 export const DEFAULT_STATE: FixdeedState = {
+  decisionCases: [],
+  plusDemo: false,
   dataMode: "personal",
   profileConfigured: false,
   profile: {
@@ -256,6 +260,8 @@ export const RepairLogEntrySchema = z.object({
 });
 export const FixdeedStateSchema = z
   .object({
+    decisionCases: z.array(DecisionCaseSchema).max(100).default([]),
+    plusDemo: z.boolean().default(false),
     dataMode: z.enum(["personal", "demo"]),
     profileConfigured: z.boolean(),
     profile: HomeProfileSchema,

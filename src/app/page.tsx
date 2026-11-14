@@ -22,7 +22,7 @@ const FAQ = [
   ],
   [
     "Is there a subscription?",
-    "The hackathon MVP is free to explore. We are testing a future $9.99/month home-care plan. There is no checkout, active subscription or charge in this version.",
+    "Checks, safety guidance, lessons and your repair ledger are free. Plus adds decision cases, quote scope notes, contractor briefs and recurring calendar export. We are testing $59/year or $7.99/month. This MVP has a clearly labeled demo checkout: no card, real charge or subscription.",
   ],
   [
     "Where does my home information go?",
@@ -40,7 +40,7 @@ export default function HomePage() {
           <div className="hero-copy">
             <p className="eyebrow hero-eyebrow">
               <span className="tiny-square" />
-              THE MANUAL YOUR HOME DIDN'T COME WITH
+              FOR THE FIRST HOME YOU CALL YOUR OWN
             </p>
             <h1>
               Your home.
@@ -50,7 +50,7 @@ export default function HomePage() {
             <p className="hero-sub">
               That drip. That noise. That thing you've been putting off.
               <br />
-              Know what to check, what to learn, and when to call a pro.
+              Know your next step. Keep the details. Stay ahead of upkeep.
             </p>
             <div className="hero-actions">
               <Link href="/fix" className="button button-primary">
@@ -63,7 +63,7 @@ export default function HomePage() {
             </div>
             <p className="hero-note">
               <Icon name="lock" size={12} />
-              Free MVP · No account or credit card needed
+              Free checks · No account or credit card needed
             </p>
             <div className="hero-bottomline">
               <span>
@@ -99,6 +99,20 @@ export default function HomePage() {
           </div>
         </div>
       </div>
+      <section className="container decision-home-strip">
+        <div>
+          <p className="eyebrow">ONE PROBLEM. A CLEARER DECISION.</p>
+          <h2>The facts for your next call.</h2>
+          <p>
+            Save what you noticed. Compare what each quote includes. Take a
+            brief to a professional, then keep the next maintenance check in
+            your calendar.
+          </p>
+        </div>
+        <Link className="button button-primary" href="/plans">
+          Explore Free and Plus <Icon name="arrow" size={18} />
+        </Link>
+      </section>
       <section className="section container">
         <div className="section-header">
           <div>
