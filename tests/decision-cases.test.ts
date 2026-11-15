@@ -87,8 +87,8 @@ describe("persistent decision cases", () => {
     expect(brief).not.toContain("$160");
   });
   it("requires explicit demo activation instead of treating a price or old tier as payment", () => {
-    expect(PLUS_ANNUAL_USD).toBe(59);
-    expect(PLUS_MONTHLY_USD).toBe(7.99);
+    expect(PLUS_ANNUAL_USD).toBe(139.99);
+    expect(PLUS_MONTHLY_USD).toBe(14.99);
     expect(hasPlusAccess({ plusDemo: false })).toBe(false);
     expect(hasPlusAccess({ plusDemo: true })).toBe(true);
   });

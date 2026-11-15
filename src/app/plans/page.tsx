@@ -2,7 +2,6 @@
 import Link from "next/link";
 import { useState } from "react";
 import { PageIntro, Notice } from "@/components/Workspace";
-import { PlusPaywall } from "@/components/PlusPaywall";
 import {
   useFixdeedState,
   disableDemoPlus,
@@ -19,7 +18,6 @@ import { Icon } from "@/components/Icon";
 export default function Plans() {
   const state = useFixdeedState();
   const hydrated = useHydrated();
-  const [open, setOpen] = useState(false);
   const [message, setMessage] = useState("");
   return (
     <div className="workspace container">
@@ -29,8 +27,8 @@ export default function Plans() {
         description="Start with free checks. Plus carries your decisions and upkeep forward, so the next problem starts with a record."
       />
       <Notice>
-        Competition MVP: proposed pricing and a demonstration checkout. No real
-        subscription or billing is available.
+        Competition MVP: proposed pricing with Stripe Sandbox checkout. Use a
+        test card. No real money is charged.
       </Notice>
       {message && (
         <p className="success-feedback mt-20" role="status">
@@ -68,7 +66,11 @@ export default function Plans() {
             ${PLUS_ANNUAL_USD}
             <span>/ year</span>
           </div>
-          <p>Or ${PLUS_MONTHLY_USD} per month. Proposed price for one home.</p>
+          <p>
+            Or ${PLUS_MONTHLY_USD.toFixed(2)} per month. One home, for your
+            household. Annual billing saves $39.89 (22.18%) versus 12 monthly
+            payments.
+          </p>
           <ul className="plan-list">
             {PLUS_FEATURES.map((t) => (
               <li key={t}>
@@ -80,7 +82,7 @@ export default function Plans() {
           {hydrated && hasPlusAccess(state) ? (
             <>
               <Notice tone="success">
-                Plus demo active in this browser. No charge or subscription.
+                Plus test access is active in this browser. No real billing.
               </Notice>
               <Link className="button button-primary mt-20" href="/cases">
                 Open decision cases
@@ -90,20 +92,25 @@ export default function Plans() {
                 onClick={() => {
                   disableDemoPlus();
                   setMessage(
-                    "Returned to Free. Your existing records are preserved and can still be exported.",
+                    "Test access disabled in this browser. Existing records are preserved. This does not cancel any Stripe sandbox subscription.",
                   );
                 }}
               >
-                Return to Free
+                Disable test access in this browser
               </button>
             </>
           ) : (
-            <button
-              className="button button-primary"
-              onClick={() => setOpen(true)}
-            >
-              Try the Plus checkout <Icon name="arrow" size={18} />
-            </button>
+            <div>
+              <Link className="button button-primary" href="/start">
+                Build my home plan <Icon name="arrow" size={18} />
+              </Link>
+              <Link
+                className="text-link mt-20"
+                href="/checkout?plan=annual&from=plans"
+              >
+                Go straight to checkout
+              </Link>
+            </div>
           )}
         </section>
       </div>
@@ -118,7 +125,8 @@ export default function Plans() {
         <p className="small muted mt-20">
           Records stay in this browser. Calendar files require manual import and
           do not sync. Plus does not include a professional inspection,
-          contractor booking, live expert advice or cloud backup.
+          contractor booking, live expert advice or cloud backup. This demo has
+          no separate family accounts or cross-device sharing.
         </p>
       </section>
       <section className="judge-entry">
@@ -145,15 +153,6 @@ export default function Plans() {
           View my home <Icon name="arrow" size={16} />
         </Link>
       </section>
-      <PlusPaywall
-        open={open}
-        onClose={() => setOpen(false)}
-        onActivated={() =>
-          setMessage(
-            "Plus demo activated. Try saved cases, quote notes and calendar export. No payment was taken.",
-          )
-        }
-      />
     </div>
   );
 }

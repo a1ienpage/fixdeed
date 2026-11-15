@@ -247,7 +247,6 @@ export default function PreventPage() {
       <PlusPaywall
         open={calendarPaywall}
         onClose={() => setCalendarPaywall(false)}
-        onActivated={exportCalendar}
         reason="Move repeat checks into the calendar you already use, with a reminder before each task."
       />
       {view === "calendar" && (

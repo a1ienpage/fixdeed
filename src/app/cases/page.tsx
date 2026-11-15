@@ -77,7 +77,7 @@ function CaseDetail({ item }: { item: DecisionCase }) {
     }
   }
   return (
-    <article className="stack">
+    <article className="stack case-record">
       <section className="surface">
         <p className="eyebrow">DECISION RECORD</p>
         <h2>{item.title}</h2>

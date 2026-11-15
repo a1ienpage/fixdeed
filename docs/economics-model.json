@@ -1,51 +1,210 @@
 {
-  "label": "Modeled assumptions. No traction, payments, CAC or retention observed.",
+  "label": "Planning model. No product-market fit, traction, payments, CAC or retention is claimed.",
   "inputs": {
-    "annualPrice": 59,
-    "monthlyPrice": 7.99,
+    "annualPrice": 139.99,
+    "monthlyPrice": 14.99,
     "paymentPercent": 0.036,
     "paymentFixed": 0.3,
-    "monthlyDelivery": 1,
-    "monthlySupport": 0.5,
-    "monthlyFreeServiceAllocation": 0.25,
-    "refundReserve": 0.02,
-    "annualRenewal": 0.55,
-    "monthlyChurn": 0.08,
-    "fullyLoadedCacTarget": 20
+    "refundReserve": 0.04,
+    "monthlyAi": 0.5,
+    "monthlyHostingEmail": 0.25,
+    "monthlyContent": 0.15,
+    "monthlySupport": 0.75,
+    "monthlyFreeTier": 0.25,
+    "annualPayerMix": 0.6,
+    "firstMonthlyRenewal": 0.6,
+    "laterMonthlyRenewal": 0.85,
+    "annualRenewal": 0.35
+  },
+  "pricing": {
+    "twelveMonthlyPayments": 179.88,
+    "annualSaving": 39.89,
+    "annualSavingPercent": 22.18
+  },
+  "costs": {
+    "monthlyServicePerPaidHome": 1.9,
+    "fixedMonthlyBudget": 8000,
+    "fixedBreakdown": {
+      "productEngineeringAndFounder": 5000,
+      "expertContentReview": 1500,
+      "toolingSecurity": 500,
+      "legalAccountingInsurance": 1000
+    }
   },
   "annual": {
-    "contribution": 34.4,
-    "contributionMarginPct": 58.3,
-    "contribution24Months": 53.31,
-    "contributionToCac24Months": 2.67
+    "contribution": 106.25,
+    "contributionRaw": 106.25076,
+    "contributionMarginPct": 75.9,
+    "paymentFees": 5.34,
+    "refundReserve": 5.6,
+    "serviceCosts": 22.8,
+    "contribution24Months": 143.44
   },
   "monthly": {
-    "contribution": 5.49,
-    "expectedPaidMonths12": 7.9,
-    "expectedRevenue12": 63.15,
-    "contribution24Months": 59.38
+    "contribution": 11.65,
+    "contributionRaw": 11.650759999999998,
+    "expectedPaidMonths24": 4.9048,
+    "contribution24Months": 57.14
   },
-  "sensitivity": [
-    {
-      "cac": 20,
-      "annualFirstYearAfterAcquisition": 14.4,
-      "annual24MonthContributionToCac": 2.67
-    },
-    {
-      "cac": 30,
-      "annualFirstYearAfterAcquisition": 4.4,
-      "annual24MonthContributionToCac": 1.78
-    },
-    {
-      "cac": 40,
-      "annualFirstYearAfterAcquisition": -5.6,
-      "annual24MonthContributionToCac": 1.33
-    }
-  ],
+  "acquisition": {
+    "channels": [
+      {
+        "channel": "Creators",
+        "payerMix": 0.5,
+        "targetCac": 40,
+        "reasoning": "$25 bounty + $15 creative/outreach operations"
+      },
+      {
+        "channel": "Content",
+        "payerMix": 0.3,
+        "targetCac": 35,
+        "reasoning": "$1,050 budget / 30 assumed new paying homes"
+      },
+      {
+        "channel": "Referrals",
+        "payerMix": 0.2,
+        "targetCac": 20,
+        "reasoning": "$15 total rewards + $5 operations"
+      }
+    ],
+    "blendedCac": 34.5,
+    "mixDefinition": "Share of new paying households, not share of spend. Test budgets, not benchmarks. Paid search excluded."
+  },
+  "blended": {
+    "contribution24Months": 108.92,
+    "contributionToCac": 3.16,
+    "cohortPaybackMonths": 4.2,
+    "cohort": [
+      {
+        "month": 1,
+        "contribution": 9.97,
+        "cumulativeContribution": 9.97
+      },
+      {
+        "month": 2,
+        "contribution": 8.11,
+        "cumulativeContribution": 18.08
+      },
+      {
+        "month": 3,
+        "contribution": 7.69,
+        "cumulativeContribution": 25.77
+      },
+      {
+        "month": 4,
+        "contribution": 7.33,
+        "cumulativeContribution": 33.1
+      },
+      {
+        "month": 5,
+        "contribution": 7.03,
+        "cumulativeContribution": 40.13
+      },
+      {
+        "month": 6,
+        "contribution": 6.77,
+        "cumulativeContribution": 46.91
+      },
+      {
+        "month": 7,
+        "contribution": 6.55,
+        "cumulativeContribution": 53.46
+      },
+      {
+        "month": 8,
+        "contribution": 6.37,
+        "cumulativeContribution": 59.83
+      },
+      {
+        "month": 9,
+        "contribution": 6.21,
+        "cumulativeContribution": 66.03
+      },
+      {
+        "month": 10,
+        "contribution": 6.07,
+        "cumulativeContribution": 72.11
+      },
+      {
+        "month": 11,
+        "contribution": 5.96,
+        "cumulativeContribution": 78.07
+      },
+      {
+        "month": 12,
+        "contribution": 5.86,
+        "cumulativeContribution": 83.93
+      },
+      {
+        "month": 13,
+        "contribution": 2.33,
+        "cumulativeContribution": 86.26
+      },
+      {
+        "month": 14,
+        "contribution": 2.26,
+        "cumulativeContribution": 88.52
+      },
+      {
+        "month": 15,
+        "contribution": 2.2,
+        "cumulativeContribution": 90.71
+      },
+      {
+        "month": 16,
+        "contribution": 2.15,
+        "cumulativeContribution": 92.86
+      },
+      {
+        "month": 17,
+        "contribution": 2.1,
+        "cumulativeContribution": 94.96
+      },
+      {
+        "month": 18,
+        "contribution": 2.07,
+        "cumulativeContribution": 97.03
+      },
+      {
+        "month": 19,
+        "contribution": 2.04,
+        "cumulativeContribution": 99.07
+      },
+      {
+        "month": 20,
+        "contribution": 2.01,
+        "cumulativeContribution": 101.08
+      },
+      {
+        "month": 21,
+        "contribution": 1.99,
+        "cumulativeContribution": 103.06
+      },
+      {
+        "month": 22,
+        "contribution": 1.97,
+        "cumulativeContribution": 105.03
+      },
+      {
+        "month": 23,
+        "contribution": 1.95,
+        "cumulativeContribution": 106.98
+      },
+      {
+        "month": 24,
+        "contribution": 1.94,
+        "cumulativeContribution": 108.92
+      }
+    ]
+  },
+  "sensitivity": {
+    "cac": 50,
+    "contributionToCac": 2.18
+  },
   "scale": {
-    "annualPayersFor100MARR": 1694916,
-    "broaderAge25to44ProxyHouseholds": 19450000,
-    "requiredProxyPenetrationPct": 8.71,
-    "warning": "All-tenure EIA 2024 age25–44 proxy, not the first-two-years segment, not willingness to pay. Ambition, not forecast."
-  }
+    "annualPayersFor100MARR": 714337,
+    "arrAt715000AnnualHomes": 100092850,
+    "warning": "Required scale, not forecast, market size or willingness to pay. A mixed subscriber base has different arithmetic."
+  },
+  "exclusions": "Before CAC, fixed costs and tax. No expert visits or unlimited human consultations. Annual contribution recognized across service period for payback. 24-month cap, no infinite horizon or discounting. US card fee assumptions do not establish Stripe account eligibility."
 }

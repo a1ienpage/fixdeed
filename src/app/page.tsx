@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import { PLUS_ANNUAL_USD, PLUS_MONTHLY_USD } from "@/lib/plans";
 import { useState } from "react";
 import { Icon } from "@/components/Icon";
 import { HomeIllustration } from "@/components/HomeIllustration";
@@ -22,7 +23,7 @@ const FAQ = [
   ],
   [
     "Is there a subscription?",
-    "Checks, safety guidance, lessons and your repair ledger are free. Plus adds decision cases, quote scope notes, contractor briefs and recurring calendar export. We are testing $59/year or $7.99/month. This MVP has a clearly labeled demo checkout: no card, real charge or subscription.",
+    `Checks, safety guidance, lessons and your repair ledger are free. Plus adds decision cases, quote scope notes, contractor briefs and recurring calendar export. Proposed pricing is $${PLUS_ANNUAL_USD.toFixed(2)}/year or $${PLUS_MONTHLY_USD.toFixed(2)}/month for one home. This MVP uses Stripe Sandbox checkout with test cards and a test subscription. No real money is charged.`,
   ],
   [
     "Where does my home information go?",
@@ -53,8 +54,8 @@ export default function HomePage() {
               Know your next step. Keep the details. Stay ahead of upkeep.
             </p>
             <div className="hero-actions">
-              <Link href="/fix" className="button button-primary">
-                Find my next step
+              <Link href="/start" className="button button-primary">
+                Build my home plan
                 <Icon name="arrow" size={18} />
               </Link>
               <a href="#how-it-works" className="button button-outline">

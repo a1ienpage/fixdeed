@@ -8,15 +8,18 @@ import {
   usePersistenceStatus,
 } from "@/lib/homeClientStore";
 import { hasPlusAccess } from "@/lib/plans";
+import { getPurchaseScope, putPurchaseJourney } from "@/lib/purchaseJourney";
 import { PlusPaywall } from "./PlusPaywall";
 import { Notice } from "./Workspace";
 import { Icon } from "./Icon";
 export function SaveCaseAction({
   result,
   observations,
+  authoredText,
 }: {
   result: DiagnosisResult;
   observations: string;
+  authoredText: string;
 }) {
   const state = useFixdeedState();
   const persistence = usePersistenceStatus();
@@ -84,7 +87,26 @@ export function SaveCaseAction({
       <PlusPaywall
         open={paywall}
         onClose={() => setPaywall(false)}
-        onActivated={save}
+        onCheckout={() => {
+          const ok = putPurchaseJourney({
+            id: crypto.randomUUID(),
+            scope: getPurchaseScope(state),
+            housingType: state.profile.housingType,
+            homeTypeConfirmed: state.profileConfigured,
+            goal: "problem",
+            observations,
+            symptomText: authoredText,
+            appliances: state.profile.appliances,
+            result,
+          });
+          if (!ok) {
+            setPaywall(false);
+            setError(
+              "This decision could not be transferred. Recheck changed symptoms before continuing.",
+            );
+          }
+          return ok;
+        }}
         reason="Save this result, compare the work quoted and take a clear brief to a professional."
       />
     </section>

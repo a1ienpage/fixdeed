@@ -1,23 +1,30 @@
 "use client";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { ModalDialog } from "./ModalDialog";
 import { Notice } from "./Workspace";
-import { activateDemoPlus, useFixdeedState } from "@/lib/homeClientStore";
-import { PLUS_ANNUAL_USD, PLUS_MONTHLY_USD } from "@/lib/plans";
+import { PlanPicker } from "./PlanPicker";
+import { clearPurchaseJourney } from "@/lib/purchaseJourney";
+import type { BillingPeriod } from "@/lib/plans";
 export function PlusPaywall({
   open,
   onClose,
-  onActivated,
+  onCheckout,
   reason = "Keep a decision record you can use again.",
 }: {
   open: boolean;
   onClose: () => void;
-  onActivated?: () => void;
+  onCheckout?: () => boolean;
   reason?: string;
 }) {
-  const [billing, setBilling] = useState<"annual" | "monthly">("annual");
-  const [ack, setAck] = useState(false);
-  const state = useFixdeedState();
+  const [billing, setBilling] = useState<BillingPeriod>("annual");
+  const path = usePathname();
+  const from = ["fix", "assistant", "cases", "prevent", "plans"].includes(
+    path.slice(1),
+  )
+    ? path.slice(1)
+    : "plans";
   if (!open) return null;
   return (
     <ModalDialog
@@ -28,61 +35,27 @@ export function PlusPaywall({
       <p className="intro-copy">{reason}</p>
       <p className="mt-20">
         Plus keeps decision cases, quote scope notes and contractor briefs
-        together, and exports recurring maintenance reminders to your calendar.
+        together, and exports recurring calendar reminders.
       </p>
-      <fieldset className="question mt-20">
-        <legend>Proposed plan</legend>
-        <div className="choice-list">
-          <button
-            className={`choice ${billing === "annual" ? "selected" : ""}`}
-            aria-pressed={billing === "annual"}
-            onClick={() => setBilling("annual")}
-          >
-            ${PLUS_ANNUAL_USD} / year{" "}
-            <span className="small muted">One home</span>
-          </button>
-          <button
-            className={`choice ${billing === "monthly" ? "selected" : ""}`}
-            aria-pressed={billing === "monthly"}
-            onClick={() => setBilling("monthly")}
-          >
-            ${PLUS_MONTHLY_USD} / month{" "}
-            <span className="small muted">One home</span>
-          </button>
-        </div>
-      </fieldset>
-      <div className="checkout-total">
-        <span>Amount charged today</span>
-        <strong>$0.00</strong>
+      <div className="mt-20">
+        <PlanPicker value={billing} onChange={setBilling} />
       </div>
       <Notice>
-        Demonstration checkout. No card, payment, subscription or automatic
-        renewal. These prices are being tested. Access is saved only in this
-        browser’s {state.dataMode === "demo" ? "sample" : "personal"} home.
+        The next page uses Stripe Sandbox and a test card. It creates a test
+        subscription with no real money movement.
       </Notice>
-      <label className="checkbox-line mt-20">
-        <input
-          type="checkbox"
-          checked={ack}
-          onChange={(e) => setAck(e.target.checked)}
-        />
-        <span>
-          I understand this activates demo access and does not purchase a
-          subscription.
-        </span>
-      </label>
       <div className="form-actions">
-        <button
+        <Link
           className="button button-primary"
-          disabled={!ack}
-          onClick={() => {
-            activateDemoPlus();
-            onActivated?.();
-            onClose();
+          href={`/checkout?plan=${billing}&from=${from}`}
+          onClick={(e) => {
+            if (onCheckout) {
+              if (!onCheckout()) e.preventDefault();
+            } else clearPurchaseJourney();
           }}
         >
-          Activate Plus demo
-        </button>
+          Continue to checkout
+        </Link>
         <button className="button button-outline" onClick={onClose}>
           Keep using free checks
         </button>

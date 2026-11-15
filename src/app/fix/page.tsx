@@ -374,6 +374,7 @@ function FixTool() {
               </section>
               <SaveCaseAction
                 result={result}
+                authoredText={text}
                 observations={[
                   text,
                   ...(preset?.clarifyingPrompts ?? [])

@@ -32,7 +32,7 @@ FIXDEED_BUILD_DIR=.next-build npm run start -- --port 3002
 ## Jury walkthrough
 
 1. Open `/fix`. Choose a sink issue, select its observations, or enter your own supported description. Higher-risk symptoms override reassuring selections. Unsupported descriptions ask for details.
-2. After a non-emergency result, choose **Save this decision**. The paywall shows the proposed $59/year or $7.99/month price. Acknowledge the **demonstration checkout** and activate Plus demo. It charges $0, takes no card, creates no subscription and does not integrate with Stripe.
+2. The homepage starts `/start`: select home type, priority and relevant observations/equipment. A real free preview comes before membership. Continue to `/checkout`, choose $139.99/year or $14.99/month, then complete **Stripe Sandbox** checkout using card `4242 4242 4242 4242`, a future expiry, any 3-digit CVC and test email. It moves no real money. Returning to `/checkout/return` verifies the paid test subscription server-side before local Plus access activates. Original decisions survive the external redirect through a bounded tab-local handoff. Existing **Save this decision** upgrades use the same checkout.
 3. Open `/cases`. The original observations and bounded result stay attached to the case. Add up to five quotes with work included, exclusions and warranty. The difference between amounts is arithmetic, not a recommendation or verified saving.
 4. Download the contractor brief. It is a local text file; nothing is sent to a contractor.
 5. Open `/prevent`. Complete a task to calculate its next due date. Plus exports recurring `.ics` events with reminder alarms for manual calendar import. Re-import after changing completion dates; no automatic sync or in-app background notification service exists.
@@ -43,7 +43,7 @@ FIXDEED_BUILD_DIR=.next-build npm run start -- --port 3002
 
 Free: all safety stops, guided checks, explanations, all 12 lessons and practice scenarios, maintenance list/repeat dates, completed repair ledger and personal JSON export/deletion.
 
-Plus demo: saved decision cases/follow-up notes, contractor quote scope comparison, local contractor brief downloads and recurring maintenance calendar exports. This is a testable product/pricing hypothesis, not evidence that anyone has paid. Entitlement is browser-local demonstration state, not production payment security. A production launch needs real billing, entitlement verification and applicable terms before charging.
+Plus demo: saved decision cases/follow-up notes, contractor quote scope comparison, local contractor brief downloads and recurring maintenance calendar exports. This is a testable product/pricing hypothesis, not evidence of real payments. Stripe Sandbox verification is real API integration, while Plus entitlement remains browser-local test state. Family accounts and cross-device sharing do not exist in this demo. A commercial launch requires production account/entitlement storage, verified webhook fulfillment, renewal/cancellation handling and applicable terms before charging.
 
 ## Honest limits
 
@@ -65,3 +65,13 @@ No real interviews, paying customers, acquisition costs, renewal rates or quanti
 ## Deployment
 
 Import this Next.js project into Vercel. If uploaded under a `fixdeed/` directory, set **Root Directory = fixdeed**. Build command: `npm run build`. No environment variables are required. Keep the submitted product available through the end of judging, without registration, payment or deployment-protection prompts. Never upload `.env`, keys, `node_modules` or `.next*` caches.
+
+## Stripe Sandbox configuration
+
+Set `STRIPE_SECRET_KEY` to the existing sandbox secret in Vercel environment variables (Production only). Never commit it. Live keys are rejected by code. `APP_BASE_URL` optionally overrides the fixed production origin `https://fixdeed.vercel.app`; use `http://localhost:3000` only for local testing. No publishable key or Price IDs are needed for the hosted redirect: amounts and intervals come from server-owned pricing.
+
+POST `/api/checkout` validates origin/input, creates an idempotent test subscription session and an attempt-specific signed HttpOnly/SameSite=Lax binding cookie, scoped to its verification path. `/api/checkout/verify/[attemptId]` retrieves Stripe’s session and checks test mode, paid+complete status, active subscription, exact USD amount, plan, browser binding and home-context hash. Query strings alone cannot activate Plus. A best-effort 60/minute warm-instance creation guard limits accidental bursts; it is not distributed enforcement. A public launch needs a deployment-level/shared admission limit. No home observations or equipment are sent to Stripe. Session storage keeps the pending decision only for the external redirect, is valid for 30 minutes and clears when consumed, deleted, or the context changes (expired copies clear on the next visit or tab close).
+
+The sandbox integration deliberately does not implement production webhook-based account fulfillment or a subscription lifecycle database. Closing the flow before the verified return does not provision test access. Canceling or declining does not grant access. The sample home remains a separate, explicitly illustrative reviewer entry.
+
+Updated business assumptions: [financial-model.md](docs/financial-model.md). Annual savings $39.89 /22.18%, blended 24-month contribution $108.92, proposed CAC $34.50, modeled payback4.2 months. These are assumptions, not product-market fit.

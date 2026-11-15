@@ -21,7 +21,7 @@ export const DecisionCaseSchema = z
   .object({
     id: z.string().min(1).max(100),
     title: z.string().trim().min(1).max(160),
-    observations: z.string().trim().min(1).max(1500),
+    observations: z.string().trim().min(1).max(8000),
     createdAt: z.iso.datetime(),
     updatedAt: z.iso.datetime(),
     status: z.enum(["open", "professional", "resolved"]),

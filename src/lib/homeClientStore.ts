@@ -20,6 +20,7 @@ import { getTransferCase } from "@/content/practice";
 import { getTaskStatus } from "@/lib/scheduling";
 import { DecisionCaseSchema, type DecisionCase } from "@/lib/decisionCases";
 import { hasPlusAccess } from "@/lib/plans";
+import { clearPurchaseJourney } from "@/lib/purchaseJourney";
 
 export const STORAGE_KEY = "fixdeed:v2";
 export const DEMO_STORAGE_KEY = "fixdeed:demo:v2";
@@ -36,6 +37,12 @@ function notify() {
 function listenToStorage() {
   if (typeof window === "undefined" || storageListening) return;
   window.addEventListener("storage", (event) => {
+    if (
+      event.key === null ||
+      ([STORAGE_KEY, DEMO_STORAGE_KEY, MODE_KEY].includes(event.key ?? "") &&
+        event.newValue === null)
+    )
+      clearPurchaseJourney();
     if (
       [STORAGE_KEY, DEMO_STORAGE_KEY, MODE_KEY].includes(event.key ?? "") ||
       event.key === null
@@ -159,6 +166,20 @@ export function updateProfile(patch: Partial<HomeProfile>): void {
 }
 export function setPlanTier(planTier: PlanTier): void {
   updateProfile({ planTier });
+}
+/** Store only the supplied setup facts in the active home; do not infer its age. */
+export function applyHomeSetup(
+  housingType: HomeProfile["housingType"],
+  appliances?: HomeProfile["appliances"],
+): FixdeedState {
+  const current = readState();
+  const profile = HomeProfileSchema.parse({
+    ...current.profile,
+    housingType,
+    ...(appliances ? { appliances } : {}),
+  });
+  writeState({ ...current, profile });
+  return readState();
 }
 export function activateDemoPlus(): void {
   const current = readState();
@@ -310,6 +331,8 @@ export function clearHomeData(): boolean {
   try {
     if (typeof window === "undefined") throw new Error("Browser unavailable");
     for (const key of keys) window.localStorage.removeItem(key);
+    if (!clearPurchaseJourney())
+      throw new Error("Checkout data remains in tab storage");
     if (keys.some((key) => window.localStorage.getItem(key) !== null))
       throw new Error("Home data remains in storage");
     cache = fresh();

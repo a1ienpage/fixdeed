@@ -1,5 +1,7 @@
 # Fixdeed competition upgrade
 
+> Historical implementation record. Current pricing and Stripe Sandbox purchase behavior are specified in `2026-11-15-price-funnel-design.md` / `2026-11-15-price-funnel.md` and documented in the README.
+
 ## Intent and authorization
 The user asked to implement the audit fixes, develop the paid value/business model, prepare a Zimran presentation, and delegated additions/improvements. Preserve the existing Next.js/React application and its visual language. Build a concrete candidate for review; do not invent traction or promise a competition placing. Implementation choices below are builder decisions under that authorization, not claims of individually approved requirements.
 

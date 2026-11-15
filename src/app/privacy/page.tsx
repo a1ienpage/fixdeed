@@ -18,21 +18,23 @@ export default function Privacy() {
           <h2>What stays on your device</h2>
           <p>
             Your home profile, completed maintenance, practiced skills and
-            repair ledger, saved decision cases, follow-up notes and entered contractor quotes are stored in this browser's local storage. A separate
-            sample-home record keeps demo history apart from your personal
-            records. No address, email, payment information or account is
-            required.
+            repair ledger, saved decision cases, follow-up notes and entered
+            contractor quotes are stored in this browser's local storage. A
+            separate sample-home record keeps demo history apart from your
+            personal records. No address, email, payment information or account
+            is required.
           </p>
         </section>
         <section>
           <h2>What is sent to the app server</h2>
           <p>
             When you request troubleshooting or ask the assistant a question,
-            the app sends your description, selected answers, and only your
-            home's build year and derived construction era to its server. The
-            assistant also sends recent conversation and its safety status. Your
-            saved home nickname, notes, equipment inventory, decision cases, quote amounts and repair ledger
-            are not included. The current implementation does not call an
+            the app sends your description, selected answers, and your selected
+            home type (in the plan builder) or your home's build year and
+            derived construction era to its server. The assistant also sends
+            recent conversation and its safety status. Your saved home nickname,
+            notes, equipment inventory, decision cases, quote amounts and repair
+            ledger are not included. The current implementation does not call an
             external AI model, analyze images or save this chat in an
             application database. Chat history stays in memory until you reload
             or start a new conversation.
@@ -40,6 +42,25 @@ export default function Privacy() {
           <p>
             Hosting infrastructure may generate operational request logs. Do not
             enter sensitive personal information into descriptions or notes.
+          </p>
+        </section>
+        <section>
+          <h2>Your setup and checkout</h2>
+          <p>
+            The plan builder keeps answers and its guided result in memory.
+            Before leaving for Stripe, it also stores a copy in this tab’s
+            session storage to restore your plan after the redirect. This copy
+            is valid for 30 minutes; an expired copy is removed on the next
+            visit or when the tab is closed. It clears that handoff after
+            verification or a home-context change. Descriptions never enter URLs
+            or Stripe metadata. Our server receives a hash of your home context
+            and selected billing period to bind the test checkout to this
+            browser. Stripe hosts the sandbox card/email form and creates a test
+            subscription. Use fictitious test details. Fixdeed receives the test
+            session identifier and verifies its status, amount and mode, but
+            does not receive card numbers. A signed HttpOnly cookie, restricted
+            to that checkout attempt’s verification path, lasts up to 24 hours.
+            No real money is collected.
           </p>
         </section>
         <section>
