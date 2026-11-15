@@ -143,6 +143,7 @@ export async function createTestCheckout(
   );
   const fields = new URLSearchParams({
     mode: "subscription",
+    locale: "en",
     "line_items[0][price_data][currency]": "usd",
     "line_items[0][price_data][unit_amount]": String(
       input.billing === "annual" ? pricing.annualCents : pricing.monthlyCents,

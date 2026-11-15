@@ -15,3 +15,15 @@ npm-debug.log*
 !.env.example
 *.tsbuildinfo
 next-env.d.ts
+
+# Local working notes, exports and generated artifacts are not product source.
+/docs/superpowers/
+/tmp/
+/temp/
+/work/
+/outputs/
+*.log
+*.zip
+*.key
+credentials*.json
+service-account*.json

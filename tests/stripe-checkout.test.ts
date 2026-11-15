@@ -146,6 +146,7 @@ describe("Stripe sandbox checkout boundary", () => {
       "year",
     );
     expect(fields.get("mode")).toBe("subscription");
+    expect(fields.get("locale")).toBe("en");
     expect(fields.has("payment_method_types[0]")).toBe(false);
     expect(version).toBe("2026-10-28.endive");
     expect(fields.get("success_url")).toBe(

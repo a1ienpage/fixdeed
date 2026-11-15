@@ -1,6 +1,6 @@
 # Verification — 15 November 2026
 
-**168 Vitest tests across 14 files pass.** TypeScript and the webpack production build pass. Tests include the original 103-test baseline, earlier safety/context fixes, finite-cohort financial arithmetic, purchase handoff isolation/deletion/size boundaries and server-side Stripe verification. Passing finite tests is not professional safety validation.
+**168 Vitest tests across 14 files pass.** The submission-cleanup pass reran the suite, TypeScript and production build; removed unused Google GenAI dependencies without changing remaining package versions; and added an English-locale checkout regression. TypeScript and the webpack production build pass. Tests include the original 103-test baseline, earlier safety/context fixes, finite-cohort financial arithmetic, purchase handoff isolation/deletion/size boundaries and server-side Stripe verification. Passing finite tests is not professional safety validation.
 
 ## Observed in the browser
 
@@ -28,6 +28,10 @@ On https://fixdeed.vercel.app, unauthenticated on 15 November 2026:
 The initial live integration attempt revealed the sandbox's API `2026-10-28.endive` rejects the old `payment_method_types` parameter. The error was inspected in Stripe Workbench, the integration migrated to Dashboard-managed dynamic methods, the API version was pinned, a regression assertion was added and the public checkout then completed successfully. No account API-version setting was changed.
 
 Server tests also verify rejected live credentials, untrusted origins, modified/expired binding cookies, unpaid/incomplete subscriptions, wrong amounts/nonces and independent cookies for concurrent HTTP checkout requests. Only Stripe-confirmed paid, complete test subscriptions with the expected amount and home scope can activate browser-local test access.
+
+## Repository and submission hygiene
+
+The reviewer guide is `JUDGING.md`, linked prominently from the README. The submission checklist maps the supplied rules to implemented behavior and remaining captain actions. Obsolete internal implementation plans and one unreferenced image were removed from the current public tree. Generated builds, dependency folders, local exports and secret files are ignored. A known-credential-pattern scan of the pre-cleanup nine reachable commits (257 text objects) and pending source found no matches; this is not an exhaustive security audit. Actual Stripe credentials remain server environment configuration.
 
 ## Remaining limits
 

@@ -4,6 +4,8 @@ Live product: https://fixdeed.vercel.app
 
 Public source: https://github.com/a1ienpage/fixdeed
 
+**Jury: [start here - access and Stripe test-card instructions](JUDGING.md).** No Fixdeed account or real payment is required. [Submission compliance checklist](docs/submission-checklist.md).
+
 Home-care decisions for US first-time homeowners aged 25–45. Zimran Business Cup, Money track. Built by **extra moggers**: Aliaskar (captain and coder), Zhamilya (economics and speaker).
 
 ## Run
@@ -13,7 +15,7 @@ npm ci
 npm run dev -- --hostname 127.0.0.1 --port 3000
 ```
 
-No provider keys, account or external AI service is required. Use Node.js 22 or 24. The production build explicitly uses Next.js webpack compilation.
+No account, provider key or external AI service is required for the core free product. The hosted Stripe Sandbox checkout needs the server-only test key described below. Use Node.js 22 or 24. The production build explicitly uses Next.js webpack compilation.
 
 ```sh
 npm test
@@ -70,7 +72,7 @@ Import this Next.js project into Vercel. If uploaded under a `fixdeed/` director
 
 Set `STRIPE_SECRET_KEY` to the existing sandbox secret in Vercel environment variables (Production only). Never commit it. Live keys are rejected by code. `APP_BASE_URL` optionally overrides the fixed production origin `https://fixdeed.vercel.app`; use `http://localhost:3000` only for local testing. No publishable key or Price IDs are needed for the hosted redirect: amounts and intervals come from server-owned pricing.
 
-REST requests pin `Stripe-Version: 2026-10-28.endive`, matching the tested sandbox. Payment methods use Stripe Dashboard dynamic settings; do not re-add the removed `payment_method_types` parameter. See [Stripe dynamic payment methods](https://docs.stripe.com/payments/payment-methods/dynamic-payment-methods).
+REST requests pin `Stripe-Version: 2026-10-28.endive`, matching the tested sandbox. Checkout explicitly uses English (`locale=en`) for the US audience. Payment methods use Stripe Dashboard dynamic settings; do not re-add the removed `payment_method_types` parameter. See [Stripe dynamic payment methods](https://docs.stripe.com/payments/payment-methods/dynamic-payment-methods).
 
 POST `/api/checkout` validates origin/input, creates an idempotent test subscription session and an attempt-specific signed HttpOnly/SameSite=Lax binding cookie, scoped to its verification path. `/api/checkout/verify/[attemptId]` retrieves Stripe’s session and checks test mode, paid+complete status, active subscription, exact USD amount, plan, browser binding and home-context hash. Query strings alone cannot activate Plus. A best-effort 60/minute warm-instance creation guard limits accidental bursts; it is not distributed enforcement. A public launch needs a deployment-level/shared admission limit. No home observations or equipment are sent to Stripe. Session storage keeps the pending decision only for the external redirect, is valid for 30 minutes and clears when consumed, deleted, or the context changes (expired copies clear on the next visit or tab close).
 
