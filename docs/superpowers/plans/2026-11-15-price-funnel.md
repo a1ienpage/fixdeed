@@ -33,4 +33,5 @@ Interfaces: put/get/clearPurchaseJourney scoped memory handoff, buildJourneyCase
 - [x] Watch failures, implement handoff and journey. Provide home/goal/details/preview screens, loading and safe error exits.
 - [x] Implement checkout chosen after user answer. Existing modal gates continue to it. Preserve free exits, show exact price/discount, prevent duplicate activation/case creation.
 - [x] Inspect browser desktop/mobile, full suite, TypeScript and production build. Fresh whole-branch review and material fixes.
-- [ ] Publish normal GitHub push, verify Vercel/hosted Stripe, sync Desktop and source output archive.
+- [x] Publish normal GitHub push and verify Vercel/hosted Stripe, including canceled monthly and completed annual checkout.
+- [x] Sync Desktop and source output archive.

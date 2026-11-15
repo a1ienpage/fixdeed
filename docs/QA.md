@@ -1,25 +1,38 @@
 # Verification — 15 November 2026
 
-145 Vitest tests across 11 files pass. TypeScript and a webpack production build pass. Tests cover the supplied 103-test baseline plus observed audit failures and upgrade behavior. An independent code review reproduced safety/context/isolation issues; the material findings received regressions and fixes. Passing finite tests is not professional safety validation.
+**168 Vitest tests across 14 files pass.** TypeScript and the webpack production build pass. Tests include the original 103-test baseline, earlier safety/context fixes, finite-cohort financial arithmetic, purchase handoff isolation/deletion/size boundaries and server-side Stripe verification. Passing finite tests is not professional safety validation.
 
 ## Observed in the browser
 
-- Explicit absent smoke/fire no longer produce an emergency for the supported ordinary sink example; active or uncertain reports retain stops.
-- The assistant uses an explicit timing answer and asks only the remaining valve question. Its structured handoff preserves the observations and selected timing check.
-- Switching from a sample home to personal on the troubleshooting route clears the existing draft/result/save action.
-- Free guided checks remain accessible before demo activation.
-- Save case paywall shows proposed annual/monthly prices, requires a demo acknowledgment and charges $0.
-- Demo activation saves a decision case with the original observations and result.
-- Two synthetic quotes at $180 and $260 show an $80 amount difference while retaining different scopes, exclusions and warranties. No saving is inferred.
-- Contractor brief downloads to a text file containing observations, questions, quotes and explicit limits, without contacting anyone.
-- Calendar export downloads a CRLF iCalendar file with recurring events and alarms; physical lines were at most 74 bytes in the inspected export.
-- The maintenance and plans screens at 390px showed document width 390px, with usable navigation and no inspected page overflow.
-- Original repair/maintenance/skill separation remains covered by regression tests and prior browser checks.
+- The four-stage journey asks for home type, priority and issue details/equipment, then shows a real guided result or maintenance preview before checkout.
+- A typed gas-smell observation remains present after a problem preset is selected. The emergency stop prevents the offer/checkout path.
+- Washer → visible kinked hose (with the app's negated electrical-smell label) reaches the bounded free result and checkout normally.
+- Editing answers after a saved preview invalidates the pending handoff. Reload no longer resurrects an old diagnosis. This was reproduced before the fix and repeated successfully afterward.
+- Checkout shows $14.99/month or the full $139.99/year, $39.89/22.18% annual savings and no real money charged. The pending result survives the external redirect/reload through bounded tab storage.
+- Mobile journey and checkout were inspected at 390px. The first-step cards, navigation, plan choices and submit controls remain usable.
+- An already-active Plus home opens its selected maintenance plan without creating another subscription. The selected home type/equipment are retained.
+- A fabricated success URL is rejected and presents a retry for that receipt. It does not activate Plus.
+- The earlier assistant handoff, sample/personal separation, synthetic quote comparison, contractor brief and recurring calendar export remain covered by regressions and prior browser checks.
 
-## Public production check
+## Public Stripe Sandbox check
 
-https://fixdeed.vercel.app was opened in a separate unauthenticated browser on 15 November 2026. Guided sink questions returned a bounded result, the paywall required demo acknowledgement, activation saved the original observations, and the case/brief/recurring-calendar flow completed without login or real payment. The downloaded brief retained selected answers. The calendar contained recurring events, alarms and the personal namespace, with physical lines no longer than 74 bytes. A remaining starter-checklist era assumption was reproduced and fixed: unconfigured profiles no longer receive a construction-era note.
+On https://fixdeed.vercel.app, unauthenticated on 15 November 2026:
+
+1. Completed the guided washer flow with explicit synthetic observations.
+2. Opened the real Stripe-hosted test Checkout at **$14.99/month**. Returning via the merchant cancel link kept the preview and left Plus disabled.
+3. Selected annual billing and opened Stripe at **$139.99/year** (full annual amount; $11.67 monthly equivalent).
+4. Completed Checkout with Stripe's standard `4242 4242 4242 4242` test card, future expiry, fictitious name and `reviewer@example.com`; no real card details or real funds were used.
+5. Returned to Fixdeed. The app displayed **STRIPE TEST PAYMENT VERIFIED**, the annual price, no real charge and successful case saving.
+6. Opened Decision cases and verified the newly saved washer case retained the original typed observations and the full selected clarifying answer in the personal home. The existing case remained present.
+
+The initial live integration attempt revealed the sandbox's API `2026-10-28.endive` rejects the old `payment_method_types` parameter. The error was inspected in Stripe Workbench, the integration migrated to Dashboard-managed dynamic methods, the API version was pinned, a regression assertion was added and the public checkout then completed successfully. No account API-version setting was changed.
+
+Server tests also verify rejected live credentials, untrusted origins, modified/expired binding cookies, unpaid/incomplete subscriptions, wrong amounts/nonces and independent cookies for concurrent HTTP checkout requests. Only Stripe-confirmed paid, complete test subscriptions with the expected amount and home scope can activate browser-local test access.
 
 ## Remaining limits
 
-No real payment processor, professional content certification, actual user validation, cross-device sync or background notification service was added. Calendar alarms depend on the external calendar app after manual import; automatic update/import behavior across all calendar clients is not certified. Plus entitlement is a disclosed local demo. Actual paid access requires a server-side billing/entitlement implementation before charging. Cost/retention/CAC assumptions in the economics model have not been measured.
+- This is **Stripe Sandbox**, not live billing or evidence of paying customers. Plus entitlement and home records remain local to the browser; family accounts and cross-device/cloud sync do not exist.
+- Production launch requires account-backed entitlements, verified webhook fulfillment, renewal/cancellation handling and applicable commercial terms. Closing before the verified return does not provision test access. Disabling local test access does not cancel the sandbox subscription.
+- The warm-instance creation budget is best-effort, not a distributed rate limit; a public commercial launch needs shared/deployment-level admission control.
+- Professional content certification and actual user validation remain outstanding. Calendar alarms depend on the external calendar app after manual import and do not automatically sync.
+- Pricing, CAC, retention, operating costs and modeled LTV/payback are planning assumptions, not measured product-market fit.
