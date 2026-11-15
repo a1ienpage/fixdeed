@@ -133,6 +133,7 @@ function Journey({ scope }: { scope: string }) {
     heading.current?.focus();
   }, [step]);
   function invalidate() {
+    clearPurchaseJourney();
     request.current++;
     controller.current?.abort();
     setResult(null);
@@ -281,7 +282,10 @@ function Journey({ scope }: { scope: string }) {
                   className={`journey-choice ${housing === h.value ? "selected" : ""}`}
                   key={h.value}
                   aria-pressed={housing === h.value}
-                  onClick={() => setHousing(h.value)}
+                  onClick={() => {
+                    invalidate();
+                    setHousing(h.value);
+                  }}
                 >
                   <strong>{h.title}</strong>
                   <span>{h.description}</span>
@@ -345,13 +349,14 @@ function Journey({ scope }: { scope: string }) {
                     <input
                       type="checkbox"
                       checked={appliances.includes(value as ApplianceId)}
-                      onChange={(e) =>
+                      onChange={(e) => {
+                        invalidate();
                         setAppliances((old) =>
                           e.target.checked
                             ? [...old, value as ApplianceId]
                             : old.filter((a) => a !== value),
-                        )
-                      }
+                        );
+                      }}
                     />
                     {label}
                   </label>

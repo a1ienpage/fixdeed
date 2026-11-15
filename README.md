@@ -64,7 +64,7 @@ No real interviews, paying customers, acquisition costs, renewal rates or quanti
 
 ## Deployment
 
-Import this Next.js project into Vercel. If uploaded under a `fixdeed/` directory, set **Root Directory = fixdeed**. Build command: `npm run build`. No environment variables are required. Keep the submitted product available through the end of judging, without registration, payment or deployment-protection prompts. Never upload `.env`, keys, `node_modules` or `.next*` caches.
+Import this Next.js project into Vercel. If uploaded under a `fixdeed/` directory, set **Root Directory = fixdeed**. Build command: `npm run build`. The core free app works without environment variables; Stripe Sandbox checkout requires the server-only test secret described below. Keep the submitted product available through the end of judging, without registration, payment or deployment-protection prompts. Never upload `.env`, keys, `node_modules` or `.next*` caches.
 
 ## Stripe Sandbox configuration
 
