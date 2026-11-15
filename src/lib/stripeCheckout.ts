@@ -110,7 +110,11 @@ async function stripeRequest(path: string, init?: RequestInit) {
     ...init,
     cache: "no-store",
     signal: AbortSignal.timeout(15000),
-    headers: { Authorization: `Bearer ${key}`, ...init?.headers },
+    headers: {
+      Authorization: `Bearer ${key}`,
+      "Stripe-Version": "2026-10-28.endive",
+      ...init?.headers,
+    },
   });
   if (!response.ok)
     throw new RequestError(
@@ -139,7 +143,6 @@ export async function createTestCheckout(
   );
   const fields = new URLSearchParams({
     mode: "subscription",
-    "payment_method_types[0]": "card",
     "line_items[0][price_data][currency]": "usd",
     "line_items[0][price_data][unit_amount]": String(
       input.billing === "annual" ? pricing.annualCents : pricing.monthlyCents,

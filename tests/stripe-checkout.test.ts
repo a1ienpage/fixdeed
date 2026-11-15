@@ -27,8 +27,10 @@ function key() {
 async function fixture() {
   key();
   let fields = new URLSearchParams();
+  let version: string | null = null;
   vi.stubGlobal("fetch", async (_url: string, init: RequestInit) => {
     fields = new URLSearchParams(String(init.body));
+    version = new Headers(init.headers).get("Stripe-Version");
     return Response.json({
       id: "cs_test_annualfixture",
       livemode: false,
@@ -55,7 +57,7 @@ async function fixture() {
       attempt: input.requestId,
     },
   };
-  return { created, fields, session };
+  return { created, fields, session, version };
 }
 describe("Stripe sandbox checkout boundary", () => {
   it("bounds requests per warm server instance without claiming distributed enforcement", () => {
@@ -138,12 +140,14 @@ describe("Stripe sandbox checkout boundary", () => {
     }
   });
   it("creates the annual subscription from server pricing and binds its return", async () => {
-    const { created, fields } = await fixture();
+    const { created, fields, version } = await fixture();
     expect(fields.get("line_items[0][price_data][unit_amount]")).toBe("13999");
     expect(fields.get("line_items[0][price_data][recurring][interval]")).toBe(
       "year",
     );
     expect(fields.get("mode")).toBe("subscription");
+    expect(fields.has("payment_method_types[0]")).toBe(false);
+    expect(version).toBe("2026-10-28.endive");
     expect(fields.get("success_url")).toBe(
       "https://fixdeed.vercel.app/checkout/return?session_id={CHECKOUT_SESSION_ID}&attempt_id=765d51cb-9ba7-49b2-86b1-981529bd60f8",
     );
